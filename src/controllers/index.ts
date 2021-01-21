@@ -5,3 +5,4 @@ export * from './url.controller';
 export * from './adminuser.controller';
 export * from './department.controller';
 export * from './staff.controller';
+export * from './hospital.controller';

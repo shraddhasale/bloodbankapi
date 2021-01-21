@@ -4,3 +4,4 @@ export * from './url.repository';
 export * from './adminuser.repository';
 export * from './department.repository';
 export * from './staff.repository';
+export * from './hospital.repository';
