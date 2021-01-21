@@ -4,3 +4,4 @@ export * from './apikey.controller';
 export * from './url.controller';
 export * from './adminuser.controller';
 export * from './department.controller';
+export * from './staff.controller';
