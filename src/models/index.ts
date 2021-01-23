@@ -8,3 +8,4 @@ export * from './hospital.model';
 export * from './userbloodbankrequest.model';
 export * from './userbloodbankdonate.model';
 export * from './userregister.model';
+export * from './bloodbank.model';
