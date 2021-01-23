@@ -7,3 +7,4 @@ export * from './staff.repository';
 export * from './hospital.repository';
 export * from './userbloodbankrequest.repository';
 export * from './userbloodbankdonate.repository';
+export * from './userregister.repository';
