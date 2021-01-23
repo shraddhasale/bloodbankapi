@@ -6,3 +6,4 @@ export * from './department.model';
 export * from './staff.model';
 export * from './hospital.model';
 export * from './userbloodbankrequest.model';
+export * from './userbloodbankdonate.model';

@@ -7,3 +7,4 @@ export * from './department.controller';
 export * from './staff.controller';
 export * from './hospital.controller';
 export * from './userbloodbankrequest.controller';
+export * from './userbloodbankdonate.controller';
