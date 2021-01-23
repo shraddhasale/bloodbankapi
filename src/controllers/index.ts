@@ -6,3 +6,4 @@ export * from './adminuser.controller';
 export * from './department.controller';
 export * from './staff.controller';
 export * from './hospital.controller';
+export * from './userbloodbankrequest.controller';
