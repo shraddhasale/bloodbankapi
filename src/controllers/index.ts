@@ -9,3 +9,4 @@ export * from './hospital.controller';
 export * from './userbloodbankrequest.controller';
 export * from './userbloodbankdonate.controller';
 export * from './userregister.controller';
+export * from './bloodbank.controller';
