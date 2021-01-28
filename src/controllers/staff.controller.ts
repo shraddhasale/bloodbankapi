@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Staff} from '../models';
 import {StaffRepository} from '../repositories';
@@ -39,12 +40,12 @@ export class StaffController {
         'application/json': {
           schema: getModelSchemaRef(Staff, {
             title: 'NewStaff',
-            exclude: ['id'],
+            exclude: ['staffID'],
           }),
         },
       },
     })
-    staff: Omit<Staff, 'id'>,
+    staff: Omit<Staff, 'staffID'>,
   ): Promise<Staff> {
     return this.staffRepository.create(staff);
   }
@@ -83,7 +84,7 @@ export class StaffController {
   ): Promise<Staff[]> {
     return this.staffRepository.find(filter);
   }
-
+/*
   @patch('/staff', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class StaffController {
   ): Promise<Count> {
     return this.staffRepository.updateAll(staff, where);
   }
-
-  @get('/staff/{id}', {
+*/
+  @get('/staff/{staffID}', {
     responses: {
       '200': {
         description: 'Staff model instance',
@@ -119,13 +120,13 @@ export class StaffController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('staffID') staffID: string,
     @param.filter(Staff, {exclude: 'where'}) filter?: FilterExcludingWhere<Staff>
   ): Promise<Staff> {
-    return this.staffRepository.findById(id, filter);
+    return this.staffRepository.findById(staffID, filter);
   }
-
-  @patch('/staff/{id}', {
+/*
+  @patch('/staff/{staffID}', {
     responses: {
       '204': {
         description: 'Staff PATCH success',
@@ -133,7 +134,7 @@ export class StaffController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('staffID') staffID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +144,10 @@ export class StaffController {
     })
     staff: Staff,
   ): Promise<void> {
-    await this.staffRepository.updateById(id, staff);
+    await this.staffRepository.updateById(staffID, staff);
   }
-
-  @put('/staff/{id}', {
+*/
+  @put('/staff/{staffID}', {
     responses: {
       '204': {
         description: 'Staff PUT success',
@@ -154,20 +155,20 @@ export class StaffController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('staffID') staffID: string,
     @requestBody() staff: Staff,
   ): Promise<void> {
-    await this.staffRepository.replaceById(id, staff);
+    await this.staffRepository.replaceById(staffID, staff);
   }
 
-  @del('/staff/{id}', {
+  @del('/staff/{staffID}', {
     responses: {
       '204': {
         description: 'Staff DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.staffRepository.deleteById(id);
+  async deleteById(@param.path.string('staffID') staffID: string): Promise<void> {
+    await this.staffRepository.deleteById(staffID);
   }
 }

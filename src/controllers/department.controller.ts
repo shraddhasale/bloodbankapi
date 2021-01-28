@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Department} from '../models';
 import {DepartmentRepository} from '../repositories';
@@ -83,7 +84,7 @@ export class DepartmentController {
   ): Promise<Department[]> {
     return this.departmentRepository.find(filter);
   }
-
+/*
   @patch('/department', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class DepartmentController {
   ): Promise<Count> {
     return this.departmentRepository.updateAll(department, where);
   }
-
-  @get('/department/{id}', {
+*/
+  @get('/department/{departmentID}', {
     responses: {
       '200': {
         description: 'Department model instance',
@@ -119,13 +120,13 @@ export class DepartmentController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('departmentID') departmentID:string,
     @param.filter(Department, {exclude: 'where'}) filter?: FilterExcludingWhere<Department>
   ): Promise<Department> {
-    return this.departmentRepository.findById(id, filter);
+    return this.departmentRepository.findById(departmentID, filter);
   }
-
-  @patch('/department/{id}', {
+/*
+  @patch('/department/{departmentID}',
     responses: {
       '204': {
         description: 'Department PATCH success',
@@ -133,7 +134,7 @@ export class DepartmentController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('departmentID') departmentdepartmentID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -145,8 +146,8 @@ export class DepartmentController {
   ): Promise<void> {
     await this.departmentRepository.updateById(id, department);
   }
-
-  @put('/department/{id}', {
+*/
+  @put('/department/{departmentID}', {
     responses: {
       '204': {
         description: 'Department PUT success',
@@ -154,20 +155,20 @@ export class DepartmentController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('departmentID') departmentID: string,
     @requestBody() department: Department,
   ): Promise<void> {
-    await this.departmentRepository.replaceById(id, department);
+    await this.departmentRepository.replaceById(departmentID, department);
   }
 
-  @del('/department/{id}', {
+  @del('/department/{departmentID}', {
     responses: {
       '204': {
         description: 'Department DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.departmentRepository.deleteById(id);
+  async deleteById(@param.path.string('departmentID') departmentID: string): Promise<void> {
+    await this.departmentRepository.deleteById(departmentID);
   }
 }

@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Url} from '../models';
 import {UrlRepository} from '../repositories';
@@ -39,12 +40,12 @@ export class UrlController {
         'application/json': {
           schema: getModelSchemaRef(Url, {
             title: 'NewUrl',
-            exclude: ['id'],
+            exclude: ['urlID'],
           }),
         },
       },
     })
-    url: Omit<Url, 'id'>,
+    url: Omit<Url, 'urlID'>,
   ): Promise<Url> {
     return this.urlRepository.create(url);
   }
@@ -83,7 +84,7 @@ export class UrlController {
   ): Promise<Url[]> {
     return this.urlRepository.find(filter);
   }
-
+/*
   @patch('/url', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class UrlController {
   ): Promise<Count> {
     return this.urlRepository.updateAll(url, where);
   }
-
-  @get('/url/{id}', {
+*/
+  @get('/url/{urlID}', {
     responses: {
       '200': {
         description: 'Url model instance',
@@ -119,13 +120,13 @@ export class UrlController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('urlID') urlID: string,
     @param.filter(Url, {exclude: 'where'}) filter?: FilterExcludingWhere<Url>
   ): Promise<Url> {
-    return this.urlRepository.findById(id, filter);
+    return this.urlRepository.findById(urlID, filter);
   }
-
-  @patch('/url/{id}', {
+/*
+  @patch('/url/{urlID}', {
     responses: {
       '204': {
         description: 'Url PATCH success',
@@ -133,7 +134,7 @@ export class UrlController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('urlID') urlID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +144,10 @@ export class UrlController {
     })
     url: Url,
   ): Promise<void> {
-    await this.urlRepository.updateById(id, url);
+    await this.urlRepository.updateById(urlID, url);
   }
-
-  @put('/url/{id}', {
+*/
+  @put('/url/{urlID}', {
     responses: {
       '204': {
         description: 'Url PUT success',
@@ -154,20 +155,20 @@ export class UrlController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('urlID') urlID: string,
     @requestBody() url: Url,
   ): Promise<void> {
-    await this.urlRepository.replaceById(id, url);
+    await this.urlRepository.replaceById(urlID, url);
   }
 
-  @del('/url/{id}', {
+  @del('/url/{urlID}', {
     responses: {
       '204': {
         description: 'Url DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.urlRepository.deleteById(id);
+  async deleteById(@param.path.string('urlID') urlID: string): Promise<void> {
+    await this.urlRepository.deleteById(urlID);
   }
 }

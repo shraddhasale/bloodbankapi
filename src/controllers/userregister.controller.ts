@@ -4,17 +4,21 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param,
+
+
+  patch, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Userregister} from '../models';
 import {UserregisterRepository} from '../repositories';
@@ -39,12 +43,12 @@ export class UserregisterController {
         'application/json': {
           schema: getModelSchemaRef(Userregister, {
             title: 'NewUserregister',
-            exclude: ['id'],
+            exclude: ['userregisterID'],
           }),
         },
       },
     })
-    userregister: Omit<Userregister, 'id'>,
+    userregister: Omit<Userregister, 'userregisterID'>,
   ): Promise<Userregister> {
     return this.userregisterRepository.create(userregister);
   }
@@ -106,7 +110,7 @@ export class UserregisterController {
     return this.userregisterRepository.updateAll(userregister, where);
   }
 
-  @get('/userredister/{id}', {
+  @get('/userredister/{userregisterID}', {
     responses: {
       '200': {
         description: 'Userregister model instance',
@@ -119,13 +123,13 @@ export class UserregisterController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('userregisterID') userregisterID: string,
     @param.filter(Userregister, {exclude: 'where'}) filter?: FilterExcludingWhere<Userregister>
   ): Promise<Userregister> {
-    return this.userregisterRepository.findById(id, filter);
+    return this.userregisterRepository.findById(userregisterID, filter);
   }
 
-  @patch('/userredister/{id}', {
+  @patch('/userredister/{userregisterID}', {
     responses: {
       '204': {
         description: 'Userregister PATCH success',
@@ -133,7 +137,7 @@ export class UserregisterController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('userregisterID') userregisterID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +147,10 @@ export class UserregisterController {
     })
     userregister: Userregister,
   ): Promise<void> {
-    await this.userregisterRepository.updateById(id, userregister);
+    await this.userregisterRepository.updateById(userregisterID, userregister);
   }
 
-  @put('/userredister/{id}', {
+  @put('/userredister/{userregisterID}', {
     responses: {
       '204': {
         description: 'Userregister PUT success',
@@ -154,20 +158,20 @@ export class UserregisterController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('userregisterID') userregisterID: string,
     @requestBody() userregister: Userregister,
   ): Promise<void> {
-    await this.userregisterRepository.replaceById(id, userregister);
+    await this.userregisterRepository.replaceById(userregisterID, userregister);
   }
 
-  @del('/userredister/{id}', {
+  @del('/userredister/{userregisterID}', {
     responses: {
       '204': {
         description: 'Userregister DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.userregisterRepository.deleteById(id);
+  async deleteById(@param.path.string('userregisterID') userregisterID: string): Promise<void> {
+    await this.userregisterRepository.deleteById(userregisterID);
   }
 }

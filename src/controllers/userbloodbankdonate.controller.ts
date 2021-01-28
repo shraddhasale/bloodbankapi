@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Userbloodbankdonate} from '../models';
 import {UserbloodbankdonateRepository} from '../repositories';
@@ -39,12 +40,12 @@ export class UserbloodbankdonateController {
         'application/json': {
           schema: getModelSchemaRef(Userbloodbankdonate, {
             title: 'NewUserbloodbankdonate',
-            exclude: ['id'],
+            exclude: ['usrbloodbankdonateID'],
           }),
         },
       },
     })
-    userbloodbankdonate: Omit<Userbloodbankdonate, 'id'>,
+    userbloodbankdonate: Omit<Userbloodbankdonate, 'usrbloodbankdonateID'>,
   ): Promise<Userbloodbankdonate> {
     return this.userbloodbankdonateRepository.create(userbloodbankdonate);
   }
@@ -83,7 +84,7 @@ export class UserbloodbankdonateController {
   ): Promise<Userbloodbankdonate[]> {
     return this.userbloodbankdonateRepository.find(filter);
   }
-
+/*
   @patch('/userbloodbankdonate', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class UserbloodbankdonateController {
   ): Promise<Count> {
     return this.userbloodbankdonateRepository.updateAll(userbloodbankdonate, where);
   }
-
-  @get('/userbloodbankdonate/{id}', {
+*/
+  @get('/userbloodbankdonate/{usrbloodbankdonateID}', {
     responses: {
       '200': {
         description: 'Userbloodbankdonate model instance',
@@ -119,12 +120,12 @@ export class UserbloodbankdonateController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string,
     @param.filter(Userbloodbankdonate, {exclude: 'where'}) filter?: FilterExcludingWhere<Userbloodbankdonate>
   ): Promise<Userbloodbankdonate> {
-    return this.userbloodbankdonateRepository.findById(id, filter);
+    return this.userbloodbankdonateRepository.findById(usrbloodbankdonateID, filter);
   }
-
+/*
   @patch('/userbloodbankdonate/{id}', {
     responses: {
       '204': {
@@ -133,7 +134,7 @@ export class UserbloodbankdonateController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +144,10 @@ export class UserbloodbankdonateController {
     })
     userbloodbankdonate: Userbloodbankdonate,
   ): Promise<void> {
-    await this.userbloodbankdonateRepository.updateById(id, userbloodbankdonate);
+    await this.userbloodbankdonateRepository.updateById(usrbloodbankdonateID, userbloodbankdonate);
   }
-
-  @put('/userbloodbankdonate/{id}', {
+*/
+  @put('/userbloodbankdonate/{usrbloodbankdonateID}', {
     responses: {
       '204': {
         description: 'Userbloodbankdonate PUT success',
@@ -154,20 +155,20 @@ export class UserbloodbankdonateController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string,
     @requestBody() userbloodbankdonate: Userbloodbankdonate,
   ): Promise<void> {
-    await this.userbloodbankdonateRepository.replaceById(id, userbloodbankdonate);
+    await this.userbloodbankdonateRepository.replaceById(usrbloodbankdonateID, userbloodbankdonate);
   }
 
-  @del('/userbloodbankdonate/{id}', {
+  @del('/userbloodbankdonate/{usrbloodbankdonateID}', {
     responses: {
       '204': {
         description: 'Userbloodbankdonate DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.userbloodbankdonateRepository.deleteById(id);
+  async deleteById(@param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string): Promise<void> {
+    await this.userbloodbankdonateRepository.deleteById(usrbloodbankdonateID);
   }
 }

@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Apikey} from '../models';
 import {ApikeyRepository} from '../repositories';
@@ -44,7 +45,7 @@ export class ApikeyController {
         },
       },
     })
-    apikey: Omit<Apikey, 'id'>,
+    apikey: Omit<Apikey, 'apikeyID'>,
   ): Promise<Apikey> {
     return this.apikeyRepository.create(apikey);
   }
@@ -83,7 +84,7 @@ export class ApikeyController {
   ): Promise<Apikey[]> {
     return this.apikeyRepository.find(filter);
   }
-
+/*
   @patch('/apikey', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class ApikeyController {
   ): Promise<Count> {
     return this.apikeyRepository.updateAll(apikey, where);
   }
-
-  @get('/apikey/{id}', {
+*/
+  @get('/apikey/{apikeyID}', {
     responses: {
       '200': {
         description: 'Apikey model instance',
@@ -119,13 +120,13 @@ export class ApikeyController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('apikeyID') apikeyID: string,
     @param.filter(Apikey, {exclude: 'where'}) filter?: FilterExcludingWhere<Apikey>
   ): Promise<Apikey> {
-    return this.apikeyRepository.findById(id, filter);
+    return this.apikeyRepository.findById(apikeyID, filter);
   }
-
-  @patch('/apikey/{id}', {
+/*
+  @patch('/apikey/{apikeyID}', {
     responses: {
       '204': {
         description: 'Apikey PATCH success',
@@ -133,7 +134,7 @@ export class ApikeyController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('apikeyID') apikeyID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +144,10 @@ export class ApikeyController {
     })
     apikey: Apikey,
   ): Promise<void> {
-    await this.apikeyRepository.updateById(id, apikey);
-  }
+    await this.apikeyRepository.updateById(apikeyID, apikey);
+  }*/
 
-  @put('/apikey/{id}', {
+  @put('/apikey/{apikeyID}',{
     responses: {
       '204': {
         description: 'Apikey PUT success',
@@ -154,20 +155,20 @@ export class ApikeyController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('apikeyID') apikeyID: string,
     @requestBody() apikey: Apikey,
   ): Promise<void> {
-    await this.apikeyRepository.replaceById(id, apikey);
+    await this.apikeyRepository.replaceById(apikeyID, apikey);
   }
 
-  @del('/apikey/{id}', {
+  @del('/apikey/{apikeyID}', {
     responses: {
       '204': {
         description: 'Apikey DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.apikeyRepository.deleteById(id);
+  async deleteById(@param.path.string('apikeyID') apikeyID: string): Promise<void> {
+    await this.apikeyRepository.deleteById(apikeyID);
   }
 }

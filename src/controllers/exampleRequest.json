@@ -1,0 +1,15 @@
+{
+"adminuserCreatBody":{
+
+  "first": "string",
+  "lastname": "string",
+  "rollid": [
+    "string"
+  ],
+  "contactno": 0,
+  "emailid": "string",
+  "statusid": 0
+
+}
+
+}

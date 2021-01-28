@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Roll} from '../models';
 import {RollRepository} from '../repositories';
@@ -44,7 +45,7 @@ export class RollController {
         },
       },
     })
-    roll: Omit<Roll, 'id'>,
+    roll: Omit<Roll, 'rollID'>,
   ): Promise<Roll> {
     return this.rollRepository.create(roll);
   }
@@ -83,7 +84,7 @@ export class RollController {
   ): Promise<Roll[]> {
     return this.rollRepository.find(filter);
   }
-
+/*
   @patch('/roll', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class RollController {
   ): Promise<Count> {
     return this.rollRepository.updateAll(roll, where);
   }
-
-  @get('/roll/{id}', {
+*/
+  @get('/roll/{rollID}', {
     responses: {
       '200': {
         description: 'Roll model instance',
@@ -118,22 +119,23 @@ export class RollController {
       },
     },
   })
-  async findById(
-    @param.path.string('id') id: string,
+  async findByrollID(
+    @param.path.string('rollID') rollID: string,
     @param.filter(Roll, {exclude: 'where'}) filter?: FilterExcludingWhere<Roll>
   ): Promise<Roll> {
-    return this.rollRepository.findById(id, filter);
+    return this.rollRepository.findById(rollID, filter);
   }
-
-  @patch('/roll/{id}', {
+/*
+  @patch('/roll/{rollID}', {
     responses: {
+
       '204': {
         description: 'Roll PATCH success',
       },
     },
   })
-  async updateById(
-    @param.path.string('id') id: string,
+  async updateByrollID(
+    @param.path.string('rollID') rollrollID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -142,11 +144,11 @@ export class RollController {
       },
     })
     roll: Roll,
-  ): Promise<void> {
-    await this.rollRepository.updateById(id, roll);
+  ): Promise<vorollID> {
+    await this.rollRepository.updateByID(id, rollID);
   }
-
-  @put('/roll/{id}', {
+*/
+  @put('/roll/{rollID}', {
     responses: {
       '204': {
         description: 'Roll PUT success',
@@ -154,20 +156,20 @@ export class RollController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('rollID') rollrollID: string,
     @requestBody() roll: Roll,
   ): Promise<void> {
-    await this.rollRepository.replaceById(id, roll);
+    await this.rollRepository.replaceById( rollrollID, roll);
   }
 
-  @del('/roll/{id}', {
+  @del('/roll/{rollID}', {
     responses: {
       '204': {
         description: 'Roll DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.rollRepository.deleteById(id);
+  async deleteBy(@param.path.string('rollID') rollrollID: string): Promise<void> {
+    await this.rollRepository.deleteById( rollrollID);
   }
 }

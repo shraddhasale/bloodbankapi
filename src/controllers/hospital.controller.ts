@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Hospital} from '../models';
 import {HospitalRepository} from '../repositories';
@@ -83,7 +84,7 @@ export class HospitalController {
   ): Promise<Hospital[]> {
     return this.hospitalRepository.find(filter);
   }
-
+/*
   @patch('/hospital', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class HospitalController {
   ): Promise<Count> {
     return this.hospitalRepository.updateAll(hospital, where);
   }
-
-  @get('/hospital/{id}', {
+*/
+  @get('/hospital/{hospitalID}', {
     responses: {
       '200': {
         description: 'Hospital model instance',
@@ -119,13 +120,13 @@ export class HospitalController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('hospitalID') hospitalID: string,
     @param.filter(Hospital, {exclude: 'where'}) filter?: FilterExcludingWhere<Hospital>
   ): Promise<Hospital> {
-    return this.hospitalRepository.findById(id, filter);
+    return this.hospitalRepository.findById(hospitalID, filter);
   }
-
-  @patch('/hospital/{id}', {
+/*
+  @patch('/hospital/{hospitalID}', {
     responses: {
       '204': {
         description: 'Hospital PATCH success',
@@ -133,7 +134,7 @@ export class HospitalController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('hospitalID') hospitalID string,
     @requestBody({
       content: {
         'application/json': {
@@ -145,8 +146,8 @@ export class HospitalController {
   ): Promise<void> {
     await this.hospitalRepository.updateById(id, hospital);
   }
-
-  @put('/hospital/{id}', {
+*/
+  @put('/hospital/{hospitalID}', {
     responses: {
       '204': {
         description: 'Hospital PUT success',
@@ -154,20 +155,20 @@ export class HospitalController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('hospitalID') hospitalID: string,
     @requestBody() hospital: Hospital,
   ): Promise<void> {
-    await this.hospitalRepository.replaceById(id, hospital);
+    await this.hospitalRepository.replaceById(hospitalID, hospital);
   }
 
-  @del('/hospital/{id}', {
+  @del('/hospital/{hospitalID}', {
     responses: {
       '204': {
         description: 'Hospital DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.hospitalRepository.deleteById(id);
+  async deleteById(@param.path.string('hospitalID') hospitalID: string): Promise<void> {
+    await this.hospitalRepository.deleteById(hospitalID);
   }
 }

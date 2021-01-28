@@ -4,21 +4,25 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
+  del, get,
+  getModelSchemaRef, param,
+
+
   post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Adminuser} from '../models';
 import {AdminuserRepository} from '../repositories';
-
+import * as exampleRequest from './exampleRequest.json';
 export class AdminuserController {
   constructor(
     @repository(AdminuserRepository)
@@ -37,14 +41,11 @@ export class AdminuserController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Adminuser, {
-            title: 'NewAdminuser',
-            exclude: ['id'],
-          }),
+          example: exampleRequest.adminuserCreatBody,
         },
       },
     })
-    adminuser: Omit<Adminuser, 'id'>,
+    adminuser: Omit<Adminuser, 'adminuserID'>,
   ): Promise<Adminuser> {
     return this.adminuserRepository.create(adminuser);
   }
@@ -83,7 +84,7 @@ export class AdminuserController {
   ): Promise<Adminuser[]> {
     return this.adminuserRepository.find(filter);
   }
-
+/*
   @patch('/adminuser', {
     responses: {
       '200': {
@@ -105,8 +106,9 @@ export class AdminuserController {
   ): Promise<Count> {
     return this.adminuserRepository.updateAll(adminuser, where);
   }
+  */
 
-  @get('/adminuser/{id}', {
+  @get('/adminuser/{adminuserID}', {
     responses: {
       '200': {
         description: 'Adminuser model instance',
@@ -119,13 +121,13 @@ export class AdminuserController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('adminuserID') adminuserID: string,
     @param.filter(Adminuser, {exclude: 'where'}) filter?: FilterExcludingWhere<Adminuser>
   ): Promise<Adminuser> {
-    return this.adminuserRepository.findById(id, filter);
+    return this.adminuserRepository.findById(adminuserID, filter);
   }
-
-  @patch('/adminuser/{id}', {
+/*
+  @patch('/adminuser/{adminuserID}', {
     responses: {
       '204': {
         description: 'Adminuser PATCH success',
@@ -133,7 +135,7 @@ export class AdminuserController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('adminuserID') adminuserID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +145,10 @@ export class AdminuserController {
     })
     adminuser: Adminuser,
   ): Promise<void> {
-    await this.adminuserRepository.updateById(id, adminuser);
-  }
+    await this.adminuserRepository.updateById(adminuserID adminuser);
+  }*/
 
-  @put('/adminuser/{id}', {
+  @put('/adminuser/{adminuserID}',{
     responses: {
       '204': {
         description: 'Adminuser PUT success',
@@ -154,20 +156,20 @@ export class AdminuserController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('adminuserID') adminuserID: string,
     @requestBody() adminuser: Adminuser,
   ): Promise<void> {
-    await this.adminuserRepository.replaceById(id, adminuser);
+    await this.adminuserRepository.replaceById(adminuserID, adminuser);
   }
 
-  @del('/adminuser/{id}', {
+  @del('/adminuser/{adminuserID}', {
     responses: {
       '204': {
         description: 'Adminuser DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.adminuserRepository.deleteById(id);
+  async deleteById(@param.path.string('adminuserID') adminuserID: string): Promise<void> {
+    await this.adminuserRepository.deleteById(adminuserID);
   }
 }

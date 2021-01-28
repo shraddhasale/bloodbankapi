@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Userbloodbankrequest} from '../models';
 import {UserbloodbankrequestRepository} from '../repositories';
@@ -39,12 +40,12 @@ export class UserbloodbankrequestController {
         'application/json': {
           schema: getModelSchemaRef(Userbloodbankrequest, {
             title: 'NewUserbloodbankrequest',
-            exclude: ['id'],
+            exclude: ['userbloodbankrequestID'],
           }),
         },
       },
     })
-    userbloodbankrequest: Omit<Userbloodbankrequest, 'id'>,
+    userbloodbankrequest: Omit<Userbloodbankrequest, 'userbloodbankrequestID'>,
   ): Promise<Userbloodbankrequest> {
     return this.userbloodbankrequestRepository.create(userbloodbankrequest);
   }
@@ -83,7 +84,7 @@ export class UserbloodbankrequestController {
   ): Promise<Userbloodbankrequest[]> {
     return this.userbloodbankrequestRepository.find(filter);
   }
-
+/*
   @patch('/userbloodbankrequest', {
     responses: {
       '200': {
@@ -105,8 +106,8 @@ export class UserbloodbankrequestController {
   ): Promise<Count> {
     return this.userbloodbankrequestRepository.updateAll(userbloodbankrequest, where);
   }
-
-  @get('/userbloodbankrequest/{id}', {
+*/
+  @get('/userbloodbankrequest/{userbloodbankrequestID}', {
     responses: {
       '200': {
         description: 'Userbloodbankrequest model instance',
@@ -119,12 +120,12 @@ export class UserbloodbankrequestController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('userbloodbankrequestID') userbloodbankrequestID: string,
     @param.filter(Userbloodbankrequest, {exclude: 'where'}) filter?: FilterExcludingWhere<Userbloodbankrequest>
   ): Promise<Userbloodbankrequest> {
-    return this.userbloodbankrequestRepository.findById(id, filter);
+    return this.userbloodbankrequestRepository.findById(userbloodbankrequestID, filter);
   }
-
+/*
   @patch('/userbloodbankrequest/{id}', {
     responses: {
       '204': {
@@ -133,7 +134,7 @@ export class UserbloodbankrequestController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('userbloodbankrequestID') userbloodbankrequestID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +144,10 @@ export class UserbloodbankrequestController {
     })
     userbloodbankrequest: Userbloodbankrequest,
   ): Promise<void> {
-    await this.userbloodbankrequestRepository.updateById(id, userbloodbankrequest);
+    await this.userbloodbankrequestRepository.updateById(userbloodbankrequestID, userbloodbankrequest);
   }
-
-  @put('/userbloodbankrequest/{id}', {
+*/
+  @put('/userbloodbankrequest/{userbloodbankrequestID}', {
     responses: {
       '204': {
         description: 'Userbloodbankrequest PUT success',
@@ -154,20 +155,20 @@ export class UserbloodbankrequestController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('userbloodbankrequestID') userbloodbankrequestID: string,
     @requestBody() userbloodbankrequest: Userbloodbankrequest,
   ): Promise<void> {
-    await this.userbloodbankrequestRepository.replaceById(id, userbloodbankrequest);
+    await this.userbloodbankrequestRepository.replaceById(userbloodbankrequestID, userbloodbankrequest);
   }
 
-  @del('/userbloodbankrequest/{id}', {
+  @del('/userbloodbankrequest/{userbloodbankrequestID}', {
     responses: {
       '204': {
         description: 'Userbloodbankrequest DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.userbloodbankrequestRepository.deleteById(id);
+  async deleteById(@param.path.string('userbloodbankrequestID') userbloodbankrequestID: string): Promise<void> {
+    await this.userbloodbankrequestRepository.deleteById(userbloodbankrequestID);
   }
 }

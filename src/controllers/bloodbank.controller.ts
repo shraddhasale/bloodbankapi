@@ -4,17 +4,18 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
+  del, get,
+  getModelSchemaRef, param, post,
+
+
+
+
   put,
-  del,
-  requestBody,
+
+  requestBody
 } from '@loopback/rest';
 import {Bloodbank} from '../models';
 import {BloodbankRepository} from '../repositories';
@@ -39,12 +40,12 @@ export class BloodbankController {
         'application/json': {
           schema: getModelSchemaRef(Bloodbank, {
             title: 'NewBloodbank',
-            exclude: ['id'],
+            exclude: ['bloodbankID'],
           }),
         },
       },
     })
-    bloodbank: Omit<Bloodbank, 'id'>,
+    bloodbank: Omit<Bloodbank, 'bloodbankID'>,
   ): Promise<Bloodbank> {
     return this.bloodbankRepository.create(bloodbank);
   }
@@ -83,12 +84,12 @@ export class BloodbankController {
   ): Promise<Bloodbank[]> {
     return this.bloodbankRepository.find(filter);
   }
-
+/*
   @patch('/bloodbank', {
     responses: {
       '200': {
         description: 'Bloodbank PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
+        content: {'application/json': {schema: CountSchema},
       },
     },
   })
@@ -105,8 +106,8 @@ export class BloodbankController {
   ): Promise<Count> {
     return this.bloodbankRepository.updateAll(bloodbank, where);
   }
-
-  @get('/bloodbank/{id}', {
+*/
+  @get('/bloodbank/{bloodbankID}', {
     responses: {
       '200': {
         description: 'Bloodbank model instance',
@@ -119,13 +120,13 @@ export class BloodbankController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('bloodbankID') bloodbankID: string,
     @param.filter(Bloodbank, {exclude: 'where'}) filter?: FilterExcludingWhere<Bloodbank>
   ): Promise<Bloodbank> {
-    return this.bloodbankRepository.findById(id, filter);
+    return this.bloodbankRepository.findById(bloodbankID, filter);
   }
-
-  @patch('/bloodbank/{id}', {
+/*
+  @patch('/bloodbank/{bloodbankID}', {
     responses: {
       '204': {
         description: 'Bloodbank PATCH success',
@@ -133,7 +134,7 @@ export class BloodbankController {
     },
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('bloodbankID') bloodbankID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -143,10 +144,10 @@ export class BloodbankController {
     })
     bloodbank: Bloodbank,
   ): Promise<void> {
-    await this.bloodbankRepository.updateById(id, bloodbank);
+    await this.bloodbankRepository.updateById(bloodbankID, bloodbank);
   }
-
-  @put('/bloodbank/{id}', {
+*/
+  @put('/bloodbank/{bloodbankID}', {
     responses: {
       '204': {
         description: 'Bloodbank PUT success',
@@ -154,20 +155,20 @@ export class BloodbankController {
     },
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.string('bloodbankID') bloodbankID: string,
     @requestBody() bloodbank: Bloodbank,
   ): Promise<void> {
-    await this.bloodbankRepository.replaceById(id, bloodbank);
+    await this.bloodbankRepository.replaceById(bloodbankID, bloodbank);
   }
 
-  @del('/bloodbank/{id}', {
+  @del('/bloodbank/{bloodbankID}', {
     responses: {
       '204': {
         description: 'Bloodbank DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
-    await this.bloodbankRepository.deleteById(id);
+  async deleteById(@param.path.string('bloodbankID') bloodbankID: string): Promise<void> {
+    await this.bloodbankRepository.deleteById(bloodbankID);
   }
 }
