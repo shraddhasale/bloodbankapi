@@ -1,9 +1,14 @@
 import {ApplicationConfig, BloodbankapiApplication} from './application';
-
+export let applicationContext: BloodbankapiApplication
 export * from './application';
+
+export function setApplicationContent(app: BloodbankapiApplication ){
+  applicationContext = app;
+}
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new BloodbankapiApplication(options);
+  applicationContext = app
   await app.boot();
   await app.start();
 

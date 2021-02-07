@@ -7,7 +7,7 @@ export class Hospital extends Entity {
     id: true,
     generated: true,
   })
-  id?: string;
+  name: string;
 
   @property({
     type: 'string',
@@ -55,31 +55,31 @@ export class Hospital extends Entity {
     type: 'number',
     required: true,
   })
-  contactno: number;
+  phoneNumber: number;
 
   @property({
     type: 'string',
     required: true,
   })
-  emailid: string;
+  email: string;
 
   @property({
     type: 'number',
     required: true,
   })
-  hospitalregisterno: number;
+  hospitalRegisterno: number;
 
   @property({
     type: 'string',
     required: true,
   })
-  hospitallobo: string;
+  hospitalLobo: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  ownername: string;
+  ownerName: string;
 
   @property({
     type: 'number',

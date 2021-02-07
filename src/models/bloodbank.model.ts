@@ -13,13 +13,13 @@ export class Bloodbank extends Entity {
     type: 'number',
     required: true,
   })
-  contactno: number;
+  phoneNumber: number;
 
   @property({
     type: 'string',
     required: true,
   })
-  firstname: string;
+  firstName: string;
 
   @property({
     type: 'string',
@@ -67,19 +67,19 @@ export class Bloodbank extends Entity {
     type: 'string',
     required: true,
   })
-  emailid: string;
+  email: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  thumbnail: string;
+  thumbNail: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  workingdays: string;
+  workingDays: string;
 
   @property({
     type: 'date',

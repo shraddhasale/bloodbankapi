@@ -1,0 +1,38 @@
+{
+  "status": {
+    "Active": 1,
+    "Inactive": 0
+  },
+  "validStatusID": [
+    0,
+    1
+  ],
+  "defaultSkip": 0,
+  "defaultLIMIT": 10,
+  "defaultMaxLimit": 100,
+  "defaultOffset": 0,
+  "defaultSortkey": "createdAt",
+  "defaultSortOrder": "desc",
+  "defaultFieldsForAdminUser": {
+    "id": true,
+    "firstName": true,
+    "lastName": true,
+    "rollID": true,
+    "phoneNumber": true,
+    "email": true,
+    "statusID": true,
+    "createdAt": true
+  },
+  "defaultFieldsForRoll": {
+    "id": true,
+    "name": true,
+    "statusID": true,
+    "createdAt": true
+  },
+  "defaultFieldsForAPI": {
+    "id": true,
+    "name": true,
+    "statusID": true,
+    "createdAt": true
+  }
+}

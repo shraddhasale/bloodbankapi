@@ -13,37 +13,37 @@ export class Userbloodbankrequest extends Entity {
     type: 'string',
     required: true,
   })
-  userid: string;
+  userId: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  requestdetail: string;
+  requestDetail: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  firstname: string;
+  firstName: string;
 
   @property({
     type: 'number',
     required: true,
   })
-  contactno: number;
+  phoneNumber: number;
 
   @property({
     type: 'string',
     required: true,
   })
-  emailid: string;
+  email: string;
 
   @property({
     type: 'number',
     required: true,
   })
-  addharcardno: number;
+  addharCard: number;
 
   @property({
     type: 'string',
@@ -55,7 +55,7 @@ export class Userbloodbankrequest extends Entity {
     type: 'boolean',
     required: true,
   })
-  ishospitalize: boolean;
+  isHospitalize: boolean;
 
   @property({
     type: 'string',
@@ -67,37 +67,37 @@ export class Userbloodbankrequest extends Entity {
     type: 'string',
     required: true,
   })
-  giveby: string;
+  giveBy: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  requestby: string;
+  requestBy: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  hospitalid: string;
+  hospitalId: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  doctorid: string;
+  doctorId: string;
 
   @property({
     type: 'number',
     required: true,
   })
-  paidamount: number;
+  paidAmount: number;
 
   @property({
     type: 'number',
     required: true,
   })
-  paidstatus: number;
+  paidStatus: number;
 
   @property({
     type: 'number',

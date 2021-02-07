@@ -1,7 +1,7 @@
 import {
   Count,
   CountSchema,
-  Filter,
+
   FilterExcludingWhere,
   repository,
   Where
@@ -17,14 +17,15 @@ import {
 
   requestBody
 } from '@loopback/rest';
+import * as constants from '../constants.json';
 import {Apikey} from '../models';
 import {ApikeyRepository} from '../repositories';
 
 export class ApikeyController {
   constructor(
     @repository(ApikeyRepository)
-    public apikeyRepository : ApikeyRepository,
-  ) {}
+    public apikeyRepository: ApikeyRepository,
+  ) { }
 
   @post('/apikey', {
     responses: {
@@ -80,33 +81,84 @@ export class ApikeyController {
     },
   })
   async find(
-    @param.filter(Apikey) filter?: Filter<Apikey>,
+    @param.filter(Apikey) filter?: any,
   ): Promise<Apikey[]> {
-    return this.apikeyRepository.find(filter);
+    filter = filter || {};
+    const result: any = {};
+    const roleData: any = {};
+    const relationData: any = {};
+    let where: any = {};
+    const filterRelation: any = {};
+    let count: any = {};
+
+    if (filter && !filter.skip) {
+      filter.skip = constants.defaultSkip;
+    }
+
+    if (filter && !filter.limit) {
+      filter.limit = constants.defaultLIMIT;
+    } else if (
+      filter &&
+      filter.limit &&
+      filter.limit > constants.defaultMaxLimit
+    ) {
+      filter.limit = constants.defaultMaxLimit;
+    }
+    //console.log(filter.limit)
+
+    if (filter && !filter.offset) {
+      filter.offset = constants.defaultOffset;
+    }
+
+    if (filter && !filter.order) {
+      filter.order = [
+        constants.defaultSortkey + ' ' + constants.defaultSortOrder,
+      ];
+    }
+
+    if (filter && !filter.fields) {
+      filter.fields = constants.defaultFieldsForAPI;  //change per controller fields
+    }
+
+    if (filter && !filter.where) {
+      filter.where = {
+        statusID: {inq: [constants.status.Active, constants.status.Inactive]},
+      };
+      where = filter.where;
+    } else {
+      //filter.where.statusID = {inq:[constants.status.Active, constants.status.Inactive]};
+      where = filter?.where;
+    }
+    result.data = await this.apikeyRepository.find(filter);
+    count = await this.apikeyRepository.count(where);
+    result.count = count.count;
+
+    return result;
+    // return this.apikeyRepository.find(filter);
   }
-/*
-  @patch('/apikey', {
-    responses: {
-      '200': {
-        description: 'Apikey PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  async updateAll(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Apikey, {partial: true}),
+  /*
+    @patch('/apikey', {
+      responses: {
+        '200': {
+          description: 'Apikey PATCH success count',
+          content: {'application/json': {schema: CountSchema}},
         },
       },
     })
-    apikey: Apikey,
-    @param.where(Apikey) where?: Where<Apikey>,
-  ): Promise<Count> {
-    return this.apikeyRepository.updateAll(apikey, where);
-  }
-*/
+    async updateAll(
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Apikey, {partial: true}),
+          },
+        },
+      })
+      apikey: Apikey,
+      @param.where(Apikey) where?: Where<Apikey>,
+    ): Promise<Count> {
+      return this.apikeyRepository.updateAll(apikey, where);
+    }
+  */
   @get('/apikey/{apikeyID}', {
     responses: {
       '200': {
@@ -125,29 +177,29 @@ export class ApikeyController {
   ): Promise<Apikey> {
     return this.apikeyRepository.findById(apikeyID, filter);
   }
-/*
-  @patch('/apikey/{apikeyID}', {
-    responses: {
-      '204': {
-        description: 'Apikey PATCH success',
-      },
-    },
-  })
-  async updateById(
-    @param.path.string('apikeyID') apikeyID: string,
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Apikey, {partial: true}),
+  /*
+    @patch('/apikey/{apikeyID}', {
+      responses: {
+        '204': {
+          description: 'Apikey PATCH success',
         },
       },
     })
-    apikey: Apikey,
-  ): Promise<void> {
-    await this.apikeyRepository.updateById(apikeyID, apikey);
-  }*/
+    async updateById(
+      @param.path.string('apikeyID') apikeyID: string,
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Apikey, {partial: true}),
+          },
+        },
+      })
+      apikey: Apikey,
+    ): Promise<void> {
+      await this.apikeyRepository.updateById(apikeyID, apikey);
+    }*/
 
-  @put('/apikey/{apikeyID}',{
+  @put('/apikey/{apikeyID}', {
     responses: {
       '204': {
         description: 'Apikey PUT success',

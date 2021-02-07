@@ -19,7 +19,7 @@ export class Apikey extends Entity {
     type: 'number',
     required: true,
   })
-  statusId: number;
+  statusID: number;
 
   @property({
     type: 'date',

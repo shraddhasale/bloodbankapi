@@ -32,7 +32,7 @@ export class Url extends Entity {
     type: 'string',
     required: true,
   })
-  rollid: string;
+  rollId: string;
 
   @property({
     type: 'number',

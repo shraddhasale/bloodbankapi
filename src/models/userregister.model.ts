@@ -13,13 +13,13 @@ export class Userregister extends Entity {
     type: 'string',
     required: true,
   })
-  firstname: string;
+  firstName: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  lastname: string;
+  lastName: string;
 
   @property({
     type: 'string',
@@ -67,7 +67,7 @@ export class Userregister extends Entity {
     type: 'string',
     required: true,
   })
-  username: string;
+  userName: string;
 
   @property({
     type: 'string',
@@ -79,19 +79,19 @@ export class Userregister extends Entity {
     type: 'string',
     required: true,
   })
-  bloodgroup: string;
+  bloodGroup: string;
 
   @property({
     type: 'date',
     required: true,
   })
-  lastdonatedate: string;
+  lastDonateDate: string;
 
   @property({
     type: 'boolean',
     required: true,
   })
-  isemailverfied: boolean;
+  isEmailVerfied: boolean;
 
   @property({
     type: 'string',
@@ -109,19 +109,19 @@ export class Userregister extends Entity {
     type: 'number',
     required: true,
   })
-  dateofbrth: number;
+  dateOfBrth: number;
 
   @property({
     type: 'number',
     required: true,
   })
-  pancardno: number;
+  panCard: number;
 
   @property({
     type: 'number',
     required: true,
   })
-  addharcardno: number;
+  addharCard: number;
 
   @property({
     type: 'string',
@@ -133,7 +133,7 @@ export class Userregister extends Entity {
     type: 'number',
     required: true,
   })
-  statusAT: number;
+  statusId: number;
 
   @property({
     type: 'date',

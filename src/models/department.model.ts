@@ -7,7 +7,7 @@ export class Department extends Entity {
     id: true,
     generated: true,
   })
-  hospitalid?: string;
+  hospitalId?: string;
 
   @property({
     type: 'string',
@@ -19,7 +19,7 @@ export class Department extends Entity {
     type: 'string',
     required: true,
   })
-  headofdepartment: string;
+  headOfDepartment: string;
 
   @property({
     type: 'number',

@@ -19,7 +19,7 @@ export class Roll extends Entity {
     type: 'number',
     required: true,
   })
-  statusId: number;
+  statusID: number;
 
   @property({
     type: 'date',

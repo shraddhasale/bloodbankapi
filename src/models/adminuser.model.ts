@@ -13,38 +13,38 @@ export class Adminuser extends Entity {
     type: 'string',
     required: true,
   })
-  first: string;
+  firstName: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  lastname: string;
+  lastName: string;
 
   @property({
     type: 'array',
     itemType: 'string',
     required: true,
   })
-  rollid: string[];
+  rollID: string[];
 
   @property({
     type: 'number',
     required: true,
   })
-  contactno: number;
+  phoneNumber: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  emailid: string;
+  email: string;
 
   @property({
     type: 'number',
     required: true,
   })
-  statusid: number;
+  statusID: number;
 
   @property({
     type: 'date',

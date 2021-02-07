@@ -1,0 +1,12 @@
+{
+    "adminUser": {
+        "firstName": "Please enter first name",
+        "lastName": "Please enter last name",
+        "email": "Please enter valdi email",
+        "phoneNumber": "Please enter valid phone number",
+        "rollID": "Please enter valid roll",
+        "statusID": "Please enter valid status",
+        "dublicateEmailExist": "Email is alreday Exist",
+        "dublicatePhoneNumberExists": "Phone Number is already Exist"
+    }
+}

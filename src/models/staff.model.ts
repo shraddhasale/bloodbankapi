@@ -19,7 +19,7 @@ export class Staff extends Entity {
     type: 'string',
     required: true,
   })
-  hospitalid: string;
+  hospitalId: string;
 
   @property({
     type: 'string',
@@ -67,13 +67,13 @@ export class Staff extends Entity {
     type: 'number',
     required: true,
   })
-  contactno: number;
+  phoneNumber: number;
 
   @property({
     type: 'string',
     required: true,
   })
-  hospitalemailid: string;
+  hospitalEmailId: string;
 
   @property({
     type: 'string',

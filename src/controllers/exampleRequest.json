@@ -1,15 +1,27 @@
 {
-"adminuserCreatBody":{
-
-  "first": "string",
-  "lastname": "string",
-  "rollid": [
-    "string"
-  ],
-  "contactno": 0,
-  "emailid": "string",
-  "statusid": 0
-
-}
-
+  "adminuserCreatBody": {
+    "firstName": "string",
+    "lastName": "string",
+    "rollID": [
+      "string"
+    ],
+    "phoneNumber": "string",
+    "email": "string",
+    "statusID": 0
+  },
+  "staffCreateBody": {
+    "name": "string",
+    "hospitalid": "string",
+    "address": "string",
+    "country": "string",
+    "state": "string",
+    "city": "string",
+    "pincode": 0,
+    "landmark": "string",
+    "location": "string",
+    "contactno": 0,
+    "hospitalemailid": "string",
+    "department": "string",
+    "statusId": 0
+  }
 }

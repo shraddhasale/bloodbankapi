@@ -17,14 +17,18 @@ import {
 
   requestBody
 } from '@loopback/rest';
+import * as common from '../component/comman.component';
 import {Staff} from '../models';
 import {StaffRepository} from '../repositories';
+import * as exampleRequest from './exampleRequest.json';
 
-export class StaffController {
+export class StaffController extends common.CommonComponent {
   constructor(
     @repository(StaffRepository)
-    public staffRepository : StaffRepository,
-  ) {}
+    public staffRepository: StaffRepository,
+  ) {
+    super();
+  }
 
   @post('/staff', {
     responses: {
@@ -35,19 +39,35 @@ export class StaffController {
     },
   })
   async create(
+    /* @requestBody({
+       content: {
+         'application/json': {
+           schema: getModelSchemaRef(Staff, {
+             title: 'NewStaff',
+             exclude: ['staffID'],
+           }),
+         },
+       },
+     })
+     */
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Staff, {
-            title: 'NewStaff',
-            exclude: ['staffID'],
-          }),
+          example: exampleRequest.staffCreateBody,
         },
       },
     })
     staff: Omit<Staff, 'staffID'>,
   ): Promise<Staff> {
-    return this.staffRepository.create(staff);
+    try {
+
+      //this.sanitizeRequestBody(staff)
+
+      return await this.staffRepository.create(staff);
+
+    } catch (err) {
+      throw err;
+    }
   }
 
   @get('/staff/count', {
@@ -84,29 +104,29 @@ export class StaffController {
   ): Promise<Staff[]> {
     return this.staffRepository.find(filter);
   }
-/*
-  @patch('/staff', {
-    responses: {
-      '200': {
-        description: 'Staff PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  async updateAll(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Staff, {partial: true}),
+  /*
+    @patch('/staff', {
+      responses: {
+        '200': {
+          description: 'Staff PATCH success count',
+          content: {'application/json': {schema: CountSchema}},
         },
       },
     })
-    staff: Staff,
-    @param.where(Staff) where?: Where<Staff>,
-  ): Promise<Count> {
-    return this.staffRepository.updateAll(staff, where);
-  }
-*/
+    async updateAll(
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Staff, {partial: true}),
+          },
+        },
+      })
+      staff: Staff,
+      @param.where(Staff) where?: Where<Staff>,
+    ): Promise<Count> {
+      return this.staffRepository.updateAll(staff, where);
+    }
+  */
   @get('/staff/{staffID}', {
     responses: {
       '200': {
@@ -125,28 +145,28 @@ export class StaffController {
   ): Promise<Staff> {
     return this.staffRepository.findById(staffID, filter);
   }
-/*
-  @patch('/staff/{staffID}', {
-    responses: {
-      '204': {
-        description: 'Staff PATCH success',
-      },
-    },
-  })
-  async updateById(
-    @param.path.string('staffID') staffID: string,
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(Staff, {partial: true}),
+  /*
+    @patch('/staff/{staffID}', {
+      responses: {
+        '204': {
+          description: 'Staff PATCH success',
         },
       },
     })
-    staff: Staff,
-  ): Promise<void> {
-    await this.staffRepository.updateById(staffID, staff);
-  }
-*/
+    async updateById(
+      @param.path.string('staffID') staffID: string,
+      @requestBody({
+        content: {
+          'application/json': {
+            schema: getModelSchemaRef(Staff, {partial: true}),
+          },
+        },
+      })
+      staff: Staff,
+    ): Promise<void> {
+      await this.staffRepository.updateById(staffID, staff);
+    }
+  */
   @put('/staff/{staffID}', {
     responses: {
       '204': {

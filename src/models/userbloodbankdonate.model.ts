@@ -13,25 +13,25 @@ export class Userbloodbankdonate extends Entity {
     type: 'string',
     required: true,
   })
-  bloodbankid: string;
+  bloodBankId: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  userid: string;
+  userId: string;
 
   @property({
     type: 'number',
     required: true,
   })
-  paidamount: number;
+  paidAmount: number;
 
   @property({
     type: 'number',
     required: true,
   })
-  paidstatus: number;
+  paidStatus: number;
 
   @property({
     type: 'number',
