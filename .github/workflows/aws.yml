@@ -1,0 +1,32 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+name: scp copy folder to remote via SSH
+
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Copy folder content recursively to remote  
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./
+          remote: bloodbankapi
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}  
+          username: ${{ secrets.USERNAME }}
+          privatekey: ${{ secrets.KEY }}
+      - name: post deployment
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: cd bloodbankapi
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          privateKey: ${{ secrets.KEY }}
+     
+ 
+      
