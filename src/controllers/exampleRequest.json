@@ -1,0 +1,106 @@
+{
+  "adminuserCreatBody": {
+    "firstName": "string",
+    "lastName": "string",
+    "roleID": [
+      "string"
+    ],
+    "phoneNumber": "string",
+    "email": "string",
+    "statusID": 1
+  },
+  "roleCreateBody": {
+    "name": "string",
+    "statusID": 1
+  },
+  "apikeyCreateBody": {
+    "name": "string",
+    "apikey": "string",
+    "roleID": "string",
+    "statusID": 1
+  },
+  "urlCreateBody": {
+    "name": "string",
+    "verb": "string",
+    "endPoint": "string",
+    "roleID": ["string"],
+    "statusID": 1
+  },
+  "staffCreateBody": {
+    "name": "string",
+    "hospitalid": "string",
+    "address": "string",
+    "country": "string",
+    "state": "string",
+    "city": "string",
+    "pincode": 0,
+    "landmark": "string",
+    "location": "string",
+    "contactno": 0,
+    "hospitalemailid": "string",
+    "department": "string",
+    "statusId": 1
+  },
+  "bloodBankCreateBody": {
+      "firstName": "string",
+      "lastName": "string",
+      "phoneNumber": "8082464653",
+      "email": "email",
+      "address" : {
+        "country": "country",
+        "state": "state",
+        "city": "city",
+        "pinCode" : "pincode",
+        "landMark": "landMark",
+        "location": "location"
+      },
+      "thumbnail": "string",
+      "statusID": 1
+  },
+  "userCreateBody" : {
+    "firstName": "string",
+      "lastName": "string",
+      "phoneNumber": "8082464653",
+      "email": "email",
+      "address" : {
+        "country": "country",
+        "state": "state",
+        "city": "city",
+        "pinCode" : "pincode",
+        "landMark": "landMark",
+        "location": "location"
+      },
+      "username": "string",
+      "password": "password",
+      "bloodgroup": "bloodgroup",
+      "gender": "gender",
+      "dob": "1999-12-12",
+      "nationality": "nationality",
+      "panCard": "panCard",
+      "adharCard": "adharCard",
+      "statusID": 1
+  }
+  ,
+  "userBloddBankDonate": {
+    "userID": "string",
+    "bloodBankID": "string",
+    "paidAmount": 100,
+    "paidStatus": 1,
+    "statusID": 1
+  },
+  "userBloddBankRequest": {
+    "userID": "string",
+    "bloodBankID": "string",
+    "requestFor": "string",
+    "isHospitalize": "no",
+    "statusID": 1
+  },
+  "adminUserLogin": {
+    "phoneNumber": "phoneNumber",
+    "password": "password"
+  },
+  "userLogin": {
+    "phoneNumber": "phoneNumber",
+    "password": "password"
+  }
+}

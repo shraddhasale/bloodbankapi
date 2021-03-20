@@ -1,0 +1,115 @@
+{
+  "status": {
+    "Active": 1,
+    "Inactive": 0,
+    "Delete": 3
+  },
+  "validStatusID": [
+    0,
+    1
+  ],
+  "defaultSkip": 0,
+  "defaultLIMIT": 10,
+  "defaultMaxLimit": 100,
+  "defaultOffset": 0,
+  "defaultSortkey": "createdAt",
+  "defaultSortOrder": "desc",
+  "defaultFieldsForAdminUser": {
+    "id": true,
+    "firstName": true,
+    "lastName": true,
+    "rollID": true,
+    "phoneNumber": true,
+    "email": true,
+    "statusID": true,
+    "createdAt": true
+  },
+  "defaultFieldsForRoll": {
+    "id": true,
+    "name": true,
+    "statusID": true,
+    "createdAt": true
+  },
+  "defaultFieldsForAPI": {
+    "id": true,
+    "name": true,
+    "apikey":true,
+    "statusID": true,
+    "createdAt": true
+  },
+  "defaultFieldsForURL": {
+    "id": true,
+    "name": true,
+    "verb": true,
+    "endPoint": true,
+    "roleID": true,
+    "statusID": true,
+    "createdAt": true
+
+  },
+  "defaultFieldsForBloodbank": {
+    "id": true,
+    "firstName":  true,
+      "lastName":  true,
+      "phoneNumber":  true,
+      "email":  true,
+      "address" :  true,
+      "thumbnail":  true,
+      "statusId":  true,
+      "createdAt": true
+  },
+  "defaultFieldsForUser": {
+    "id": true,
+    "firstName": true,
+    "lastName": true,
+    "phoneNumber": true,
+    "email": true,
+    "address" : true,
+    "username": true,
+    "password": true,
+    "bloodgroup": true,
+    "gender": true,
+    "dob": true,
+    "nationality": true,
+    "panCard": true,
+    "adharCard": true,
+    "statusID": true,
+    "createdAt": true
+  },
+  "internalQueryLimit":100,
+  "crypto": {
+    "key": "tCWkuigevAeBH6CYiDn7iKs1F3ZabL0I"
+  },
+  "userRoleID": "604c60599db3bd40b16ca9fe",
+  "defaultFieldsForUserBloodDonation": {
+    "userID": true,
+    "bloodbankID": true,
+    "paidAmount": true,
+    "paidStatus": true,
+    "statusID": true,
+    "createdAt": true
+
+  },
+  "defaultFieldsForUserBloodRequest": {
+    "id":true,
+    "userID": true,
+    "bloodBankID": true,
+    "requestFor": true,
+    "isHospitalize": true,
+    "statusID": true,
+    "createdAt": true
+  },
+  "userTypeforjwttoken": {
+    "adminUser": 1,
+    "user": 2,
+    "readerTag":3,
+    "hiddenOrganizationUser": 4
+},
+"jwebtokensecret": "ZeUMwqxmyBnm2Q2y",
+"jwttokenexpiryminuteAdmin": 1000,
+"jwttokenexpiryminuteUser": 1000,
+"crypto": {
+    "myTotalySecretKey" : "ZHNHdj2eSPNhRog79LeD19u1eKNj8OZQ"
+},
+"newTokenPlaceHolder" : "{{newToken}}"
+}
