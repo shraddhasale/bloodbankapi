@@ -23,7 +23,7 @@ jobs:
       - name: post deployment
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd bloodbankapi && npm install && npm run clean && cp ../config/bloodbankdb.datasource.config.json src/datasources/ && npm run build
+          command: cd bloodbankapi && npm install && npm run clean && cp ../config/bloodbankdb.datasource.config.json src/datasources/ && npm run build && pm2 reload bloodbankAPI
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
