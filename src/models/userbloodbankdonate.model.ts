@@ -13,13 +13,13 @@ export class Userbloodbankdonate extends Entity {
     type: 'string',
     required: true,
   })
-  bloodBankId: string;
+  bloodBankID: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  userId: string;
+  userID: string;
 
   @property({
     type: 'number',
@@ -37,13 +37,19 @@ export class Userbloodbankdonate extends Entity {
     type: 'number',
     required: true,
   })
-  statusId: number;
+  statusID: number;
 
   @property({
     type: 'date',
     required: true,
   })
   createdAt: string;
+
+  @property({
+    type: 'date',
+    required: true,
+  })
+  updatedAt: string;
 
   // Define well-known properties here
 
@@ -60,4 +66,5 @@ export interface UserbloodbankdonateRelations {
   // describe navigational properties here
 }
 
-export type UserbloodbankdonateWithRelations = Userbloodbankdonate & UserbloodbankdonateRelations;
+export type UserbloodbankdonateWithRelations = Userbloodbankdonate &
+  UserbloodbankdonateRelations;

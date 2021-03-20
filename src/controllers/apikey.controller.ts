@@ -1,31 +1,32 @@
 import {
   Count,
   CountSchema,
-
   FilterExcludingWhere,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
-  del, get,
-  getModelSchemaRef, param, post,
-
-
-
-
+  del,
+  get,
+  getModelSchemaRef,
+  param,
+  post,
   put,
-
-  requestBody
+  requestBody,
 } from '@loopback/rest';
+import * as common from '../component/comman.component';
 import * as constants from '../constants.json';
 import {Apikey} from '../models';
 import {ApikeyRepository} from '../repositories';
+import * as exampleRequest from './exampleRequest.json';
 
-export class ApikeyController {
+export class ApikeyController extends common.CommonComponent {
   constructor(
     @repository(ApikeyRepository)
     public apikeyRepository: ApikeyRepository,
-  ) { }
+  ) {
+    super();
+  }
 
   @post('/apikey', {
     responses: {
@@ -39,15 +40,27 @@ export class ApikeyController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Apikey, {
-            title: 'NewApikey',
-            exclude: ['id'],
-          }),
+          example: exampleRequest.apikeyCreateBody,
         },
       },
     })
-    apikey: Omit<Apikey, 'apikeyID'>,
+    apikey: any,
   ): Promise<Apikey> {
+    // return this.apikeyRepository.create(apikey);
+    //return this.roleRepository.create(role);
+    await this.sanitizeRequestBody(apikey);
+    await this.validateData(apikey, 'apikey');
+
+    //check duplicate role name id
+    await this.duplicatedCheckForRoleAPIKEY(apikey.name, '');
+
+    if (apikey.roleID && apikey.roleID != '') {
+      await this.checkRoleIdIsvalid([apikey.roleID]);
+    }
+
+    apikey.createdAt = new Date();
+    apikey.updatedAt = new Date();
+
     return this.apikeyRepository.create(apikey);
   }
 
@@ -59,9 +72,7 @@ export class ApikeyController {
       },
     },
   })
-  async count(
-    @param.where(Apikey) where?: Where<Apikey>,
-  ): Promise<Count> {
+  async count(@param.where(Apikey) where?: Where<Apikey>): Promise<Count> {
     return this.apikeyRepository.count(where);
   }
 
@@ -80,9 +91,7 @@ export class ApikeyController {
       },
     },
   })
-  async find(
-    @param.filter(Apikey) filter?: any,
-  ): Promise<Apikey[]> {
+  async find(@param.filter(Apikey) filter?: any): Promise<Apikey[]> {
     filter = filter || {};
     const result: any = {};
     const roleData: any = {};
@@ -117,7 +126,7 @@ export class ApikeyController {
     }
 
     if (filter && !filter.fields) {
-      filter.fields = constants.defaultFieldsForAPI;  //change per controller fields
+      filter.fields = constants.defaultFieldsForAPI; //change per controller fields
     }
 
     if (filter && !filter.where) {
@@ -173,7 +182,8 @@ export class ApikeyController {
   })
   async findById(
     @param.path.string('apikeyID') apikeyID: string,
-    @param.filter(Apikey, {exclude: 'where'}) filter?: FilterExcludingWhere<Apikey>
+    @param.filter(Apikey, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Apikey>,
   ): Promise<Apikey> {
     return this.apikeyRepository.findById(apikeyID, filter);
   }
@@ -208,9 +218,46 @@ export class ApikeyController {
   })
   async replaceById(
     @param.path.string('apikeyID') apikeyID: string,
-    @requestBody() apikey: Apikey,
+    @requestBody({
+      content: {
+        'application/json': {
+          example: exampleRequest.apikeyCreateBody,
+        },
+      },
+    })
+    apikey: any,
   ): Promise<void> {
+    //await this.apikeyRepository.replaceById(apikeyID, apikey);
+
+    await this.sanitizeRequestBody(apikey);
+    await this.validateData(apikey, 'apikey');
+
+    //check duplicate email id
+    await this.duplicatedCheckForEmail(apikey.name, apikeyID);
+    //check duplicate phonenumber
+    await this.duplicatedCheckForPhoneNumber(apikey.name, apikeyID);
+
+    if (apikey.roleID && apikey.roleID != '') {
+      await this.checkRoleIdIsvalid([apikey.roleID]);
+    }
+
+    let roleDetail: any = await this.apikeyRepository.find({
+      where: {
+        id: apikeyID,
+      },
+    });
+
+    if (roleDetail && roleDetail[0] && roleDetail[0]['createdAt']) {
+      apikey.createdAt = roleDetail[0]['createdAt'];
+    }
+
+    apikey.updatedAt = new Date();
+
     await this.apikeyRepository.replaceById(apikeyID, apikey);
+
+    var result: any = await this.apikeyRepository.findById(apikeyID, {});
+
+    return {...result};
   }
 
   @del('/apikey/{apikeyID}', {
@@ -220,7 +267,16 @@ export class ApikeyController {
       },
     },
   })
-  async deleteById(@param.path.string('apikeyID') apikeyID: string): Promise<void> {
-    await this.apikeyRepository.deleteById(apikeyID);
+  async deleteById(
+    @param.path.string('apikeyID') apikeyID: string,
+  ): Promise<void> {
+    //await this.apikeyRepository.deleteById(apikeyID);
+
+    let apikey: any = {};
+    apikey = {statusID: constants.status.Delete};
+    let result: any = {};
+    await this.apikeyRepository.updateById(apikeyID, apikey);
+    result = await this.apikeyRepository.findById(apikeyID);
+    return {...result};
   }
 }

@@ -4,9 +4,90 @@
         "lastName": "Please enter last name",
         "email": "Please enter valdi email",
         "phoneNumber": "Please enter valid phone number",
-        "rollID": "Please enter valid roll",
+        "roleID": "Please enter valid roll",
+        "statusID": "Please enter valid status",
+        "dublicateEmailExist": "Email is alreday Exist",
+        "dublicatePhoneNumberExists": "Phone Number is already Exist",
+        "password": "Please enter password",
+        "invalidCredentialsError" : "Invalid email or password"
+    },
+    "role":{
+        "name": "Please enter role name",
+        "statusID": "Please enter valid status",
+        "dublicateRoleExists": "Role is already exist",
+        "roleNotExist": "Role not exist"
+    },
+    "apikey":{
+        "name": "Please enter API key name",
+        "apikey": "Please enter api key value",
+        "roleID": "Please enter valid role",
+        "statusID": "Please enter valid status",
+        "dublicateAPIKEYExists": "APIKEY is already exist"
+    },
+    "url": {
+        "name": "Please enter URL  name",
+        "verb": "Please enter method name",
+        "endPoint": "Please emter endPoint",
+        "roleID": "Please enter role name",
+        "statusID": "Please enter valid status",
+        "duplicateURlExist": "URL is already exist"
+
+    },
+    "bloodbank": {
+        "firstName":  "Please enter First Name",
+        "lastName":  "Please Enter Last Name",
+        "phoneNumber":  "Please Enter Phone Number",
+        "email":  "Please Enter Email",
+        "address" :  "Please Enter address",
+        "thumbnail":  "Please Enter Thumbnail",
         "statusID": "Please enter valid status",
         "dublicateEmailExist": "Email is alreday Exist",
         "dublicatePhoneNumberExists": "Phone Number is already Exist"
+    },
+    "user": {
+        "firstName":  "Please enter First Name",
+        "lastName":  "Please Enter Last Name",
+        "phoneNumber":  "Please Enter Phone Number",
+        "email":  "Please Enter Email",
+        "address" :  "Please Enter address",
+        "thumbnail":  "Please Enter Thumbnail",
+        "username": "Please enter username",
+        "password": "Please enter password",
+        "bloodgroup": "Please enter blood group",
+        "gender": "Please Enter gender",
+        "dob": "Please Enter DOB",
+        "nationality": "Please enter Nationality",
+        "panCard": "Please Enter panCard",
+        "adharCard": "Please Enter adharCard",
+        "statusID": "Please enter valid status",
+        "dublicateEmailExist": "Email is alreday Exist",
+        "dublicatePhoneNumberExists": "Phone Number is already Exist",
+        "dublicateUserNameExists": "userName already Exist",
+        "invalidCredentialsError" : "Invalid email or password"
+
+    },
+    "httperror" : {
+        "unauthorized" : "Unauthorized",
+        "newToken" : "New Token = {{newToken}}",
+        "forbidden": "Forbidden",
+        "tokenExpired": "Token Expired. Please Relogin Again!"
+    },
+    "userbloodbankdonate": {
+        "userID": "Please select user",
+        "bloodbankID": "Please select blood bank",
+        "paidAmount": "Please enter paid amount",
+        "paidStatus": "Please enter paid status",
+        "statusID": "Please enter valid status",
+        "userNotExist": "Invalid User",
+        "bloodbankNotExist": "Invalid BloodBank"
+    },
+    "userbloodbankrequest": {
+        "userID": "Please select user",
+        "bloodbankID": "Please select blood bank",
+        "requestFor": "Please enter requestFor",
+        "isHospitalize": "Please enter isHospitalize",
+        "statusID": "Please enter valid status",
+        "userNotExist": "Invalid User",
+        "bloodbankNotExist": "Invalid BloodBank"
     }
 }

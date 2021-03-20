@@ -1,7 +1,7 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class Apikey extends Entity {
+export class Role extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -14,18 +14,6 @@ export class Apikey extends Entity {
     required: true,
   })
   name: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  apikey: string;
-
-  @property({
-    type: 'string',
-    required: false,
-  })
-  roleID: string;
 
   @property({
     type: 'number',
@@ -45,13 +33,13 @@ export class Apikey extends Entity {
   })
   updatedAt: string;
 
-  constructor(data?: Partial<Apikey>) {
+  constructor(data?: Partial<Role>) {
     super(data);
   }
 }
 
-export interface ApikeyRelations {
+export interface RoleRelations {
   // describe navigational properties here
 }
 
-export type ApikeyWithRelations = Apikey & ApikeyRelations;
+export type RoleWithRelations = Role & RoleRelations;

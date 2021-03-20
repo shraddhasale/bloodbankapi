@@ -24,12 +24,18 @@ export class Adminuser extends Entity {
   @property({
     type: 'array',
     itemType: 'string',
-    required: true,
+    required: false,
   })
-  rollID: string[];
+  roleID: string[];
 
   @property({
-    type: 'number',
+    type: 'string',
+    required: true,
+  })
+  password: string;
+
+  @property({
+    type: 'string',
     required: true,
   })
   phoneNumber: string;
@@ -56,7 +62,7 @@ export class Adminuser extends Entity {
     type: 'date',
     required: true,
   })
-  upadatedAt: string;
+  updatedAt: string;
 
   // Define well-known properties here
 

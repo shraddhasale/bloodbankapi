@@ -13,43 +13,19 @@ export class Userbloodbankrequest extends Entity {
     type: 'string',
     required: true,
   })
-  userId: string;
+  userID: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  requestDetail: string;
+  bloodBankID: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  firstName: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  phoneNumber: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  email: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  addharCard: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  address: string;
+  requestFor: string;
 
   @property({
     type: 'boolean',
@@ -58,52 +34,10 @@ export class Userbloodbankrequest extends Entity {
   isHospitalize: boolean;
 
   @property({
-    type: 'string',
-    required: true,
-  })
-  gender: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  giveBy: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  requestBy: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  hospitalId: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  doctorId: string;
-
-  @property({
     type: 'number',
     required: true,
   })
-  paidAmount: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  paidStatus: number;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  statuId: number;
+  statusID: number;
 
   @property({
     type: 'date',
@@ -132,4 +66,5 @@ export interface UserbloodbankrequestRelations {
   // describe navigational properties here
 }
 
-export type UserbloodbankrequestWithRelations = Userbloodbankrequest & UserbloodbankrequestRelations;
+export type UserbloodbankrequestWithRelations = Userbloodbankrequest &
+  UserbloodbankrequestRelations;

@@ -19,26 +19,26 @@ export class Url extends Entity {
     type: 'string',
     required: true,
   })
-  method: string;
-
-  @property({
-    type: 'array',
-    itemType: 'string',
-    required: true,
-  })
-  url: string[];
+  verb: string;
 
   @property({
     type: 'string',
     required: true,
   })
-  rollId: string;
+  endPoint: string;
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+    required: false,
+  })
+  roleID: string[];
 
   @property({
     type: 'number',
     required: true,
   })
-  statusId: number;
+  statusID: number;
 
   @property({
     type: 'date',

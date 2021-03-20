@@ -10,10 +10,10 @@ export class Bloodbank extends Entity {
   id?: string;
 
   @property({
-    type: 'number',
+    type: 'string',
     required: true,
   })
-  phoneNumber: number;
+  phoneNumber: string;
 
   @property({
     type: 'string',
@@ -25,43 +25,19 @@ export class Bloodbank extends Entity {
     type: 'string',
     required: true,
   })
-  address: string;
+  lastName: string;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  address: object;
 
   @property({
     type: 'string',
     required: true,
   })
-  country: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  state: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  city: string;
-
-  @property({
-    type: 'number',
-    required: true,
-  })
-  pincode: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  landmark: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  location: string;
+  thumbnail: string;
 
   @property({
     type: 'string',
@@ -70,28 +46,10 @@ export class Bloodbank extends Entity {
   email: string;
 
   @property({
-    type: 'string',
-    required: true,
-  })
-  thumbNail: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  workingDays: string;
-
-  @property({
-    type: 'date',
-    required: true,
-  })
-  day: string;
-
-  @property({
     type: 'number',
     required: true,
   })
-  statusId: number;
+  statusID: number;
 
   @property({
     type: 'date',

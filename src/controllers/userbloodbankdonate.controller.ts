@@ -4,33 +4,38 @@ import {
   Filter,
   FilterExcludingWhere,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
-  del, get,
-  getModelSchemaRef, param, post,
-
-
-
-
+  del,
+  get,
+  getModelSchemaRef,
+  param,
+  post,
   put,
-
-  requestBody
+  requestBody,
 } from '@loopback/rest';
+import * as common from '../component/comman.component';
+import * as constants from '../constants.json';
 import {Userbloodbankdonate} from '../models';
 import {UserbloodbankdonateRepository} from '../repositories';
+import * as exampleRequest from './exampleRequest.json';
 
-export class UserbloodbankdonateController {
+export class UserbloodbankdonateController extends common.CommonComponent {
   constructor(
     @repository(UserbloodbankdonateRepository)
-    public userbloodbankdonateRepository : UserbloodbankdonateRepository,
-  ) {}
+    public userbloodbankdonateRepository: UserbloodbankdonateRepository,
+  ) {
+    super();
+  }
 
   @post('/userbloodbankdonate', {
     responses: {
       '200': {
         description: 'Userbloodbankdonate model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Userbloodbankdonate)}},
+        content: {
+          'application/json': {schema: getModelSchemaRef(Userbloodbankdonate)},
+        },
       },
     },
   })
@@ -38,15 +43,28 @@ export class UserbloodbankdonateController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Userbloodbankdonate, {
-            title: 'NewUserbloodbankdonate',
-            exclude: ['usrbloodbankdonateID'],
-          }),
+          example: exampleRequest.userBloddBankDonate,
         },
       },
     })
-    userbloodbankdonate: Omit<Userbloodbankdonate, 'usrbloodbankdonateID'>,
+    userbloodbankdonate: Omit<Userbloodbankdonate, 'userbloodbankdonateID'>,
   ): Promise<Userbloodbankdonate> {
+    //return this.userbloodbankdonateRepository.create(userbloodbankdonate);
+
+    // return this.userbloodbankdonateRepository.create(apikey);
+    //return this.roleRepository.create(role);
+    await this.sanitizeRequestBody(userbloodbankdonate);
+    await this.validateData(userbloodbankdonate, 'userbloodbankdonate');
+
+    //check bloodbankID is valdi
+    await this.checkBloodBankisValid(userbloodbankdonate.bloodBankID);
+
+    //check bloodbankID is valdi
+    await this.checkUserisValid(userbloodbankdonate.userID);
+
+    userbloodbankdonate.createdAt = new Date();
+    userbloodbankdonate.updatedAt = new Date();
+
     return this.userbloodbankdonateRepository.create(userbloodbankdonate);
   }
 
@@ -72,7 +90,9 @@ export class UserbloodbankdonateController {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(Userbloodbankdonate, {includeRelations: true}),
+              items: getModelSchemaRef(Userbloodbankdonate, {
+                includeRelations: true,
+              }),
             },
           },
         },
@@ -82,9 +102,61 @@ export class UserbloodbankdonateController {
   async find(
     @param.filter(Userbloodbankdonate) filter?: Filter<Userbloodbankdonate>,
   ): Promise<Userbloodbankdonate[]> {
-    return this.userbloodbankdonateRepository.find(filter);
+    // return this.userbloodbankdonateRepository.find(filter);
+
+    filter = filter || {};
+    const result: any = {};
+    const roleData: any = {};
+    const relationData: any = {};
+    let where: any = {};
+    const filterRelation: any = {};
+    let count: any = {};
+
+    if (filter && !filter.skip) {
+      filter.skip = constants.defaultSkip;
+    }
+
+    if (filter && !filter.limit) {
+      filter.limit = constants.defaultLIMIT;
+    } else if (
+      filter &&
+      filter.limit &&
+      filter.limit > constants.defaultMaxLimit
+    ) {
+      filter.limit = constants.defaultMaxLimit;
+    }
+    //console.log(filter.limit)
+
+    if (filter && !filter.offset) {
+      filter.offset = constants.defaultOffset;
+    }
+
+    if (filter && !filter.order) {
+      filter.order = [
+        constants.defaultSortkey + ' ' + constants.defaultSortOrder,
+      ];
+    }
+
+    if (filter && !filter.fields) {
+      filter.fields = constants.defaultFieldsForUserBloodDonation; //change per controller fields
+    }
+
+    if (filter && !filter.where) {
+      filter.where = {
+        statusID: {inq: [constants.status.Active, constants.status.Inactive]},
+      };
+      where = filter.where;
+    } else {
+      //filter.where.statusID = {inq:[constants.status.Active, constants.status.Inactive]};
+      where = filter?.where;
+    }
+    result.data = await this.userbloodbankdonateRepository.find(filter);
+    count = await this.userbloodbankdonateRepository.count(where);
+    result.count = count.count;
+
+    return result;
   }
-/*
+  /*
   @patch('/userbloodbankdonate', {
     responses: {
       '200': {
@@ -107,25 +179,31 @@ export class UserbloodbankdonateController {
     return this.userbloodbankdonateRepository.updateAll(userbloodbankdonate, where);
   }
 */
-  @get('/userbloodbankdonate/{usrbloodbankdonateID}', {
+  @get('/userbloodbankdonate/{userbloodbankdonateID}', {
     responses: {
       '200': {
         description: 'Userbloodbankdonate model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(Userbloodbankdonate, {includeRelations: true}),
+            schema: getModelSchemaRef(Userbloodbankdonate, {
+              includeRelations: true,
+            }),
           },
         },
       },
     },
   })
   async findById(
-    @param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string,
-    @param.filter(Userbloodbankdonate, {exclude: 'where'}) filter?: FilterExcludingWhere<Userbloodbankdonate>
+    @param.path.string('userbloodbankdonateID') userbloodbankdonateID: string,
+    @param.filter(Userbloodbankdonate, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Userbloodbankdonate>,
   ): Promise<Userbloodbankdonate> {
-    return this.userbloodbankdonateRepository.findById(usrbloodbankdonateID, filter);
+    return this.userbloodbankdonateRepository.findById(
+      userbloodbankdonateID,
+      filter,
+    );
   }
-/*
+  /*
   @patch('/userbloodbankdonate/{id}', {
     responses: {
       '204': {
@@ -134,7 +212,7 @@ export class UserbloodbankdonateController {
     },
   })
   async updateById(
-    @param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string,
+    @param.path.string('userbloodbankdonateID') userbloodbankdonateID: string,
     @requestBody({
       content: {
         'application/json': {
@@ -144,10 +222,10 @@ export class UserbloodbankdonateController {
     })
     userbloodbankdonate: Userbloodbankdonate,
   ): Promise<void> {
-    await this.userbloodbankdonateRepository.updateById(usrbloodbankdonateID, userbloodbankdonate);
+    await this.userbloodbankdonateRepository.updateById(userbloodbankdonateID, userbloodbankdonate);
   }
 */
-  @put('/userbloodbankdonate/{usrbloodbankdonateID}', {
+  @put('/userbloodbankdonate/{userbloodbankdonateID}', {
     responses: {
       '204': {
         description: 'Userbloodbankdonate PUT success',
@@ -155,20 +233,83 @@ export class UserbloodbankdonateController {
     },
   })
   async replaceById(
-    @param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string,
-    @requestBody() userbloodbankdonate: Userbloodbankdonate,
+    @param.path.string('userbloodbankdonateID') userbloodbankdonateID: string,
+    @requestBody({
+      content: {
+        'application/json': {
+          example: exampleRequest.userBloddBankDonate,
+        },
+      },
+    })
+    userbloodbankdonate: any,
   ): Promise<void> {
-    await this.userbloodbankdonateRepository.replaceById(usrbloodbankdonateID, userbloodbankdonate);
+    // await this.userbloodbankdonateRepository.replaceById(
+    //   userbloodbankdonateID,
+    //   userbloodbankdonate,
+    // );
+
+    await this.sanitizeRequestBody(userbloodbankdonate);
+    await this.validateData(userbloodbankdonate, 'userbloodbankdonate');
+
+    //check bloodbankID is valdi
+    await this.checkBloodBankisValid(userbloodbankdonate.bloodBankID);
+
+    //check bloodbankID is valdi
+    await this.checkUserisValid(userbloodbankdonate.userID);
+
+    let userbloodbankdonateDetail: any = await this.userbloodbankdonateRepository.find(
+      {
+        where: {
+          id: userbloodbankdonate,
+        },
+      },
+    );
+
+    if (
+      userbloodbankdonateDetail &&
+      userbloodbankdonateDetail[0] &&
+      userbloodbankdonateDetail[0]['createdAt']
+    ) {
+      userbloodbankdonate.createdAt = userbloodbankdonateDetail[0]['createdAt'];
+    }
+
+    userbloodbankdonate.updatedAt = new Date();
+
+    await this.userbloodbankdonateRepository.replaceById(
+      userbloodbankdonateID,
+      userbloodbankdonate,
+    );
+
+    var result: any = await this.userbloodbankdonateRepository.findById(
+      userbloodbankdonate,
+      {},
+    );
+
+    return {...result};
   }
 
-  @del('/userbloodbankdonate/{usrbloodbankdonateID}', {
+  @del('/userbloodbankdonate/{userbloodbankdonateID}', {
     responses: {
       '204': {
         description: 'Userbloodbankdonate DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('usrbloodbankdonateID') usrbloodbankdonateID: string): Promise<void> {
-    await this.userbloodbankdonateRepository.deleteById(usrbloodbankdonateID);
+  async deleteById(
+    @param.path.string('userbloodbankdonateID') userbloodbankdonateID: string,
+  ): Promise<void> {
+    //await this.userbloodbankdonateRepository.deleteById(userbloodbankdonateID);
+
+    let userbloodbankdonate: any = {};
+    userbloodbankdonate = {statusID: constants.status.Delete};
+    let result: any = {};
+    await this.userbloodbankdonateRepository.updateById(
+      userbloodbankdonateID,
+      userbloodbankdonate,
+    );
+    result = await this.userbloodbankdonateRepository.findById(
+      userbloodbankdonateID,
+    );
+    return {...result};
   }
 }

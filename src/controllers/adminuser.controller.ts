@@ -1,38 +1,41 @@
 import {
   Count,
   CountSchema,
-
   FilterExcludingWhere,
   repository,
-  Where
+  Where,
 } from '@loopback/repository';
 import {
-  del, get,
-  getModelSchemaRef, param,
-
-
+  del,
+  get,
+  getModelSchemaRef,
+  HttpErrors,
+  param,
   post,
-
-
-
-
   put,
-
-  requestBody
+  requestBody,
 } from '@loopback/rest';
+import {securityId, UserProfile} from '@loopback/security';
+import {compare, genSalt, hash} from 'bcryptjs';
 import * as common from '../component/comman.component';
 import * as constants from '../constants.json';
+import * as el from '../label/error.json';
 import {Adminuser} from '../models';
 import {AdminuserRepository} from '../repositories';
 import * as exampleRequest from './exampleRequest.json';
-const emailRegx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+const emailRegx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const errorLabel: any = el;
+const jwt = require('jsonwebtoken');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr(constants.crypto.myTotalySecretKey);
+const moment = require('moment');
 export class AdminuserController extends common.CommonComponent {
   constructor(
     @repository(AdminuserRepository)
     public adminuserRepository: AdminuserRepository,
   ) {
-    super()
+    super();
   }
 
   @post('/adminuser', {
@@ -51,9 +54,8 @@ export class AdminuserController extends common.CommonComponent {
         },
       },
     })
-    adminuser: Omit<Adminuser, 'adminuserID'>,
+    adminuser: Omit<Adminuser, 'adminUserID'>,
   ): Promise<Adminuser> {
-
     await this.sanitizeRequestBody(adminuser);
     await this.validateData(adminuser, 'adminUser');
 
@@ -61,12 +63,15 @@ export class AdminuserController extends common.CommonComponent {
     await this.duplicatedCheckForEmail(adminuser.email, '');
     //check duplicate phonenumber
     await this.duplicatedCheckForPhoneNumber(adminuser.phoneNumber, '');
-
+    //check role exists
+    if (adminuser.roleID && adminuser.roleID.length > 0) {
+      await this.checkRoleIdIsvalid(adminuser.roleID);
+    }
+    adminuser.password = await hash(adminuser.password, await genSalt());
     adminuser.createdAt = new Date();
-    adminuser.upadatedAt = new Date();
+    adminuser.updatedAt = new Date();
 
     return this.adminuserRepository.create(adminuser);
-
   }
 
   @get('/adminuser/count', {
@@ -98,9 +103,7 @@ export class AdminuserController extends common.CommonComponent {
       },
     },
   })
-  async find(
-    @param.filter(Adminuser) filter?: any,
-  ): Promise<Adminuser[]> {
+  async find(@param.filter(Adminuser) filter?: any): Promise<Adminuser[]> {
     /*************************Default param for find start here************************************** */
     filter = filter || {};
     const result: any = {};
@@ -136,7 +139,7 @@ export class AdminuserController extends common.CommonComponent {
     }
 
     if (filter && !filter.fields) {
-      filter.fields = constants.defaultFieldsForAdminUser;  //change per controller fields
+      filter.fields = constants.defaultFieldsForAdminUser; //change per controller fields
     }
 
     if (filter && !filter.where) {
@@ -206,8 +209,6 @@ export class AdminuserController extends common.CommonComponent {
     count = await this.adminuserRepository.count(where);
     result.count = count.count;
 
-
-
     /**********************************find relation data end here************************************************************* */
     return result;
 
@@ -237,7 +238,7 @@ export class AdminuserController extends common.CommonComponent {
     }
     */
 
-  @get('/adminuser/{adminuserID}', {
+  @get('/adminuser/{adminUserID}', {
     responses: {
       '200': {
         description: 'Adminuser model instance',
@@ -250,13 +251,14 @@ export class AdminuserController extends common.CommonComponent {
     },
   })
   async findById(
-    @param.path.string('adminuserID') adminuserID: string,
-    @param.filter(Adminuser, {exclude: 'where'}) filter?: FilterExcludingWhere<Adminuser>
+    @param.path.string('adminUserID') adminUserID: string,
+    @param.filter(Adminuser, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Adminuser>,
   ): Promise<Adminuser> {
-    return this.adminuserRepository.findById(adminuserID, filter);
+    return this.adminuserRepository.findById(adminUserID, filter);
   }
   /*
-    @patch('/adminuser/{adminuserID}', {
+    @patch('/adminuser/{adminUserID}', {
       responses: {
         '204': {
           description: 'Adminuser PATCH success',
@@ -264,7 +266,7 @@ export class AdminuserController extends common.CommonComponent {
       },
     })
     async updateById(
-      @param.path.string('adminuserID') adminuserID: string,
+      @param.path.string('adminUserID') adminUserID: string,
       @requestBody({
         content: {
           'application/json': {
@@ -274,10 +276,10 @@ export class AdminuserController extends common.CommonComponent {
       })
       adminuser: Adminuser,
     ): Promise<void> {
-      await this.adminuserRepository.updateById(adminuserID adminuser);
+      await this.adminuserRepository.updateById(adminUserID adminuser);
     }*/
 
-  @put('/adminuser/{adminuserID}', {
+  @put('/adminuser/{adminUserID}', {
     responses: {
       '204': {
         description: 'Adminuser PUT success',
@@ -285,29 +287,182 @@ export class AdminuserController extends common.CommonComponent {
     },
   })
   async replaceById(
-    @param.path.string('adminuserID') adminuserID: string,
-    @requestBody() adminuser: Adminuser,
+    @param.path.string('adminUserID') adminUserID: string,
+    @requestBody({
+      content: {
+        'application/json': {
+          example: exampleRequest.adminuserCreatBody,
+        },
+      },
+    })
+    adminuser: any,
   ): Promise<void> {
-
     await this.sanitizeRequestBody(adminuser);
     await this.validateData(adminuser, 'adminUser');
 
     //check duplicate email id
-    await this.duplicatedCheckForEmail(adminuser.email, adminuserID);
+    await this.duplicatedCheckForEmail(adminuser.email, adminUserID);
     //check duplicate phonenumber
-    await this.duplicatedCheckForPhoneNumber(adminuser.phoneNumber, adminuserID);
+    await this.duplicatedCheckForPhoneNumber(
+      adminuser.phoneNumber,
+      adminUserID,
+    );
 
-    await this.adminuserRepository.replaceById(adminuserID, adminuser);
+    //check role exists
+    if (adminuser.roleID && adminuser.role.length > 0) {
+      await this.checkRoleIdIsvalid(adminuser.roleID);
+    }
+
+    let adminUserDetail: any = await this.adminuserRepository.find({
+      where: {
+        id: adminUserID,
+      },
+    });
+
+    if (
+      adminUserDetail &&
+      adminUserDetail[0] &&
+      adminUserDetail[0]['createdAt']
+    ) {
+      adminuser.createdAt = adminUserDetail[0]['createdAt'];
+      adminuser.password = adminUserDetail[0]['password'];
+    }
+
+    adminuser.updatedAt = new Date();
+
+    await this.adminuserRepository.replaceById(adminUserID, adminuser);
+
+    var result: any = await this.adminuserRepository.findById(adminUserID, {});
+
+    return {...result};
   }
 
-  @del('/adminuser/{adminuserID}', {
+  @del('/adminuser/{adminUserID}', {
     responses: {
       '204': {
         description: 'Adminuser DELETE success',
       },
     },
   })
-  async deleteById(@param.path.string('adminuserID') adminuserID: string): Promise<void> {
-    await this.adminuserRepository.deleteById(adminuserID);
+  async deleteById(
+    @param.path.string('adminUserID') adminUserID: string,
+  ): Promise<void> {
+    //await this.adminuserRepository.deleteById(adminUserID);
+
+    let adminUser: any = {};
+    adminUser = {statusID: constants.status.Delete};
+    let result: any = {};
+    await this.adminuserRepository.updateById(adminUserID, adminUser);
+    result = await this.adminuserRepository.findById(adminUserID);
+    return {...result};
+  }
+
+  @post('/adminuser/login', {
+    responses: {
+      '200': {
+        description: 'AdminUser Login success',
+      },
+    },
+  })
+  async login(
+    @requestBody({
+      content: {
+        'application/json': {
+          example: exampleRequest.adminUserLogin,
+        },
+      },
+    })
+    adminUserLoginRequest: any,
+  ): Promise<Adminuser> {
+    try {
+      console.log('inside admin user start === ' + moment());
+      adminUserLoginRequest = this.sanitizeRequestBody(adminUserLoginRequest);
+      this.validateData(adminUserLoginRequest, 'adminUserLogin');
+      //login c=start from here
+      const foundUser = await this.adminuserRepository.findOne({
+        where: {phoneNumber: adminUserLoginRequest.phoneNumber, statusID: 1},
+        fields: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phoneNumber: true,
+          roleID: true,
+          password: true,
+        },
+      });
+      if (!foundUser) {
+        throw new HttpErrors.Unauthorized(
+          errorLabel.adminUser.invalidCredentialsError,
+        );
+      }
+      const passwordMatched = await compare(
+        adminUserLoginRequest.password,
+        foundUser.password,
+      );
+      if (!passwordMatched) {
+        throw new HttpErrors.Unauthorized(
+          errorLabel.adminUser.invalidCredentialsError,
+        );
+      }
+      var token = await this.generateUserToken(foundUser.id);
+      var result: any = {};
+
+      result = token;
+      console.log('inside admin user end === ' + moment());
+      return {...result};
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  //function for adminUser token
+  public async generateUserToken(adminUserID: any): Promise<void> {
+    const foundUser = await this.adminuserRepository.findOne({
+      where: {
+        id: adminUserID,
+      },
+      fields: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
+        roleID: true,
+      },
+    });
+
+    if (!foundUser) {
+      throw new HttpErrors.Unauthorized(
+        errorLabel.adminUser.invalidCredentialsError,
+      );
+    }
+
+    // convert a User object into a UserProfile object (reduced set of properties)
+    const userProfile = this.convertToUserProfile(foundUser);
+
+    let token = jwt.sign(userProfile, constants.jwebtokensecret, {
+      expiresIn: 60 * constants.jwttokenexpiryminuteAdmin,
+    });
+
+    token = cryptr.encrypt(token);
+    var finalResult: any = {};
+    finalResult = foundUser;
+    finalResult.token = token;
+
+    return finalResult;
+  }
+
+  convertToUserProfile(adminUser: any): UserProfile {
+    return {
+      [securityId]: adminUser.id.toString(),
+      type: constants.userTypeforjwttoken.adminUser,
+      firstname: adminUser.firstName,
+      lastName: adminUser.firstName,
+      id: adminUser.id.toString(),
+      roleID: adminUser.roleID,
+      email: adminUser.email,
+      phoneNumber: adminUser.phoneNumber,
+    };
   }
 }
