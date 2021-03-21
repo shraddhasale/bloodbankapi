@@ -290,7 +290,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           email: email,
@@ -322,7 +322,7 @@ export class CommonComponent implements Component {
 
   protected async duplicatedCheckForURL(data: any, id: string): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           name: data.name,
@@ -379,7 +379,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           phoneNumber: phoneNumber,
@@ -414,7 +414,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           phoneNumber: phoneNumber,
@@ -449,7 +449,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           email: email,
@@ -484,7 +484,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           phoneNumber: phoneNumber,
@@ -519,7 +519,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           username: username,
@@ -554,7 +554,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           email: email,
@@ -589,7 +589,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           name: name,
@@ -624,7 +624,7 @@ export class CommonComponent implements Component {
     id: string,
   ): Promise<void> {
     let filter: any = {};
-    if (id == undefined) {
+    if (id == undefined || id == '') {
       filter = {
         where: {
           name: name,
