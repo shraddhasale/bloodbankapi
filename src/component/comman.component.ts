@@ -336,8 +336,8 @@ export class CommonComponent implements Component {
         where: {
           id: {nin: [id]},
           name: data.name,
-          url: data.url,
-          method: data.method,
+          endPoint: data.endPoint,
+          verb: data.verb,
           statusID: {inq: [constants.status.Active, constants.status.Inactive]},
         },
       };
