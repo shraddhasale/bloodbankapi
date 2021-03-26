@@ -1,7 +1,6 @@
 import {
   Count,
   CountSchema,
-  Filter,
   FilterExcludingWhere,
   repository,
   Where,
@@ -18,13 +17,15 @@ import {
 import * as common from '../component/comman.component';
 import * as constants from '../constants.json';
 import {Url} from '../models';
-import {UrlRepository} from '../repositories';
+import {RoleRepository, UrlRepository} from '../repositories';
 import * as exampleRequest from './exampleRequest.json';
 
 export class UrlController extends common.CommonComponent {
   constructor(
     @repository(UrlRepository)
     public urlRepository: UrlRepository,
+    @repository(RoleRepository)
+    public roleRepository: RoleRepository,
   ) {
     super();
   }
@@ -91,7 +92,7 @@ export class UrlController extends common.CommonComponent {
       },
     },
   })
-  async find(@param.filter(Url) filter?: Filter<Url>): Promise<Url[]> {
+  async find(@param.filter(Url) filter?: any): Promise<Url[]> {
     //return this.urlRepository.find(filter);
     filter = filter || {};
     const result: any = {};
@@ -139,8 +140,50 @@ export class UrlController extends common.CommonComponent {
       //filter.where.statusID = {inq:[constants.status.Active, constants.status.Inactive]};
       where = filter?.where;
     }
+
+    if ('search' in filter['where']) {
+      let search = filter['where']['search'];
+      delete filter['where']['search'];
+      const or: any = [];
+      search = search.trim();
+      or.push({
+        name: new RegExp(search, 'i'),
+      });
+      or.push({
+        verb: new RegExp(search, 'i'),
+      });
+      or.push({
+        endPoint: new RegExp(search, 'i'),
+      });
+      filter['where']['or'] = or;
+    }
+    const util = require('util');
+    console.log(util.inspect(filter, {showHidden: false, depth: null}));
+
     result.data = await this.urlRepository.find(filter);
     count = await this.urlRepository.count(where);
+
+    const roleIDS = [];
+    if (result) {
+      for (var i = 0; i < result.data.length; i++) {
+        if (result.data[i]['roleID'].length) {
+          for (let j = 0; j < result.data[i]['roleID'].length; j++) {
+            roleIDS.push(result.data[i]['roleID'][j]);
+          }
+        }
+      }
+
+      filterRelation.where = {id: {inq: roleIDS}};
+      filterRelation.fields = {id: true, name: true};
+      console.log(filterRelation);
+      const roleData: any = await this.roleRepository.find(filterRelation, {
+        strictObjectIDCoercion: false,
+      });
+      for (var i = 0; i < roleData.length; i++) {
+        relationData[roleData[i]['id'].toString()] = roleData[i]['name'];
+      }
+      result.relationData = {role: relationData};
+    }
     result.count = count.count;
 
     return result;
