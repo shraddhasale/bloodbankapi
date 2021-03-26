@@ -117,7 +117,7 @@ export class MySequence implements SequenceHandler {
         errorData.error.message = 'Token Expired';
       }
 
-      context.response.status(401).send(errorData);
+      context.response.status(498).send(errorData);
 
       // 4. log the error using RestBindings.SequenceActions.LOG_ERROR
       this.logError(err, err.statusCode, context.request);
