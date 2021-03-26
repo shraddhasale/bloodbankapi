@@ -143,6 +143,7 @@ export class AuthController {
                 newToken = await adminuserController.generateUserToken(
                   decoded['id'],
                 );
+                newToken = newToken.token;
               } else if (decoded.type == constants.userTypeforjwttoken.user) {
                 //regenrate token from backend for user
                 const userController = await applicationContext.get<UserController>(
@@ -151,6 +152,7 @@ export class AuthController {
                 newToken = await userController.generateUserToken(
                   decoded['id'],
                 );
+                newToken = newToken.token;
               } else if (
                 decoded.type ==
                 constants.userTypeforjwttoken.hiddenOrganizationUser
