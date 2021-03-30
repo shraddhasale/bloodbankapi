@@ -1,7 +1,6 @@
 import {
   Count,
   CountSchema,
-  Filter,
   FilterExcludingWhere,
   repository,
   Where,
@@ -20,6 +19,7 @@ import * as constants from '../constants.json';
 import {Bloodbank} from '../models';
 import {BloodbankRepository} from '../repositories';
 import * as exampleRequest from './exampleRequest.json';
+const emailRegx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export class BloodbankController extends common.CommonComponent {
   constructor(
@@ -95,9 +95,7 @@ export class BloodbankController extends common.CommonComponent {
       },
     },
   })
-  async find(
-    @param.filter(Bloodbank) filter?: Filter<Bloodbank>,
-  ): Promise<Bloodbank[]> {
+  async find(@param.filter(Bloodbank) filter?: any): Promise<Bloodbank[]> {
     //return this.bloodbankRepository.find(filter);
     filter = filter || {};
     const result: any = {};
