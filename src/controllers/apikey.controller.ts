@@ -138,6 +138,18 @@ export class ApikeyController extends common.CommonComponent {
       //filter.where.statusID = {inq:[constants.status.Active, constants.status.Inactive]};
       where = filter?.where;
     }
+
+    if ('search' in filter['where']) {
+      let search = filter['where']['search'];
+      delete filter['where']['search'];
+      const or: any = [];
+      search = search.trim();
+      or.push({
+        name: new RegExp(search, 'i'),
+      });
+      filter['where']['or'] = or;
+    }
+
     result.data = await this.apikeyRepository.find(filter);
     count = await this.apikeyRepository.count(where);
     result.count = count.count;
