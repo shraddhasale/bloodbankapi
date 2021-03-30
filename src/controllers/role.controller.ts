@@ -133,6 +133,18 @@ export class RoleController extends common.CommonComponent {
       //filter.where.statusID = {inq:[constants.status.Active, constants.status.Inactive]};
       where = filter?.where;
     }
+
+    if ('search' in filter['where']) {
+      let search = filter['where']['search'];
+      delete filter['where']['search'];
+      const or: any = [];
+      search = search.trim();
+      or.push({
+        name: new RegExp(search, 'i'),
+      });
+      filter['where']['or'] = or;
+    }
+
     result.data = await this.roleRepository.find(filter);
     count = await this.roleRepository.count(where);
     result.count = count.count;
