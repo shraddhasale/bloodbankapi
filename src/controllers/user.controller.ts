@@ -1,7 +1,6 @@
 import {
   Count,
   CountSchema,
-  Filter,
   FilterExcludingWhere,
   repository,
   Where,
@@ -25,6 +24,7 @@ import * as el from '../label/error.json';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 import * as exampleRequest from './exampleRequest.json';
+const emailRegx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const errorLabel: any = el;
 
@@ -111,7 +111,7 @@ export class UserController extends common.CommonComponent {
       },
     },
   })
-  async find(@param.filter(User) filter?: Filter<User>): Promise<User[]> {
+  async find(@param.filter(User) filter?: any): Promise<User[]> {
     //return this.userRepository.find(filter);
     /*************************Default param for find start here************************************** */
     filter = filter || {};
@@ -160,6 +160,57 @@ export class UserController extends common.CommonComponent {
       //filter.where.statusID = {inq:[constants.status.Active, constants.status.Inactive]};
       where = filter?.where;
     }
+
+    if ('search' in filter['where']) {
+      let search = filter['where']['search'];
+      delete filter['where']['search'];
+      const or: any = [];
+      search = search.trim();
+      if (/^\d+$/.test(search)) {
+        if (search.length === 10) {
+          or.push({
+            phoneNumber: search,
+          });
+        } else {
+          or.push({
+            phoneNumber: new RegExp(search, 'i'),
+          });
+        }
+      } else if (emailRegx.test(search)) {
+        or.push({
+          email: search,
+        });
+      } else {
+        const splitVal = search.split(' ');
+        const fName = splitVal[0];
+        const lastName = splitVal[1]
+          ? search.substr(search.indexOf(' ') + 1)
+          : '';
+
+        if (lastName !== '') {
+          or.push(
+            {firstName: fName, lastName: lastName},
+            {
+              firstName: fName.toLowerCase(),
+              lastName: lastName.toLowerCase(),
+            },
+            {
+              firstName: fName.charAt(0).toUpperCase() + fName.slice(1),
+              lastName: lastName.charAt(0).toUpperCase() + lastName.slice(1),
+            },
+          );
+        } else {
+          or.push(
+            {firstName: fName},
+            {firstName: fName.toLowerCase()},
+            {firstName: fName.charAt(0).toUpperCase() + fName.slice(1)},
+            {email: new RegExp(search, 'i')},
+          );
+        }
+      }
+      filter['where']['or'] = or;
+    }
+
     result.data = await this.userRepository.find(filter);
     count = await this.userRepository.count(where);
     result.count = count.count;
