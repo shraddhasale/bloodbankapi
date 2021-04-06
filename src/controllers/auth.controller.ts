@@ -204,11 +204,13 @@ export class AuthController {
               // //console.log(organizationInurlFalg);
               // //console.log(roleID);
 
-              if (organizationInurlFalg == false) {
-                throw new HttpErrors.Forbidden(errorLabel.httperror.forbidden);
-              }
+              // if (organizationInurlFalg == false) {
+              //   throw new HttpErrors.Forbidden(errorLabel.httperror.forbidden);
+              // }
               // //console.log(roleID);
               //check organization user role and url mapping
+
+              let roleID = verifiedJwt.roleID;
               const urlResult: any = await this.urlRepository.count({
                 roleID: {inq: roleID},
                 verb: verb,
