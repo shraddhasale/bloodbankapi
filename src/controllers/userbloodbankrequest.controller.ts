@@ -18,12 +18,20 @@ import {
 import * as common from '../component/comman.component';
 import * as constants from '../constants.json';
 import {Userbloodbankrequest} from '../models';
-import {UserbloodbankrequestRepository} from '../repositories';
+import {
+  BloodbankRepository,
+  UserbloodbankrequestRepository,
+  UserRepository,
+} from '../repositories';
 import * as exampleRequest from './exampleRequest.json';
 export class UserbloodbankrequestController extends common.CommonComponent {
   constructor(
     @repository(UserbloodbankrequestRepository)
     public userbloodbankrequestRepository: UserbloodbankrequestRepository,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
+    @repository(BloodbankRepository)
+    public bloodbankRepository: BloodbankRepository,
   ) {
     super();
   }
@@ -152,6 +160,63 @@ export class UserbloodbankrequestController extends common.CommonComponent {
     result.data = await this.userbloodbankrequestRepository.find(filter);
     count = await this.userbloodbankrequestRepository.count(where);
     result.count = count.count;
+
+    if (result) {
+      let userID = [];
+      let bloodBankID = [];
+
+      for (var i = 0; i < result.data.length; i++) {
+        if (result.data[i]['userID']) {
+          userID.push(result.data[i]['userID']);
+          bloodBankID.push(result.data[i]['bloodBankID']);
+        }
+      }
+
+      filterRelation.where = {id: {inq: userID}};
+      filterRelation.fields = {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
+      };
+      const userData: any = await this.userRepository.find(filterRelation, {});
+      for (var i = 0; i < userData.length; i++) {
+        relationData[userData[i]['id'].toString()] = {
+          firstName: userData[i]['firstName'],
+          lastName: userData[i]['lastName'],
+          email: userData[i]['email'],
+          phoneNumber: userData[i]['phoneNumber'],
+        };
+      }
+
+      let filterRelationBloodbank: any = {};
+      filterRelationBloodbank.where = {id: {inq: bloodBankID}};
+      filterRelationBloodbank.fields = {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phoneNumber: true,
+      };
+      const bloodbankData: any = await this.bloodbankRepository.find(
+        filterRelationBloodbank,
+        {},
+      );
+      let bloodbankReationData: any = {};
+      for (var i = 0; i < bloodbankData.length; i++) {
+        bloodbankReationData[bloodbankData[i]['id'].toString()] = {
+          firstName: bloodbankData[i]['firstName'],
+          lastName: bloodbankData[i]['lastName'],
+          email: bloodbankData[i]['email'],
+          phoneNumber: bloodbankData[i]['phoneNumber'],
+        };
+      }
+      result.relationData = {
+        user: relationData,
+        bloodbank: bloodbankReationData,
+      };
+    }
 
     return result;
   }
