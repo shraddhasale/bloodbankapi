@@ -83,7 +83,7 @@
   "userRoleID": "604c60599db3bd40b16ca9fe",
   "defaultFieldsForUserBloodDonation": {
     "userID": true,
-    "bloodbankID": true,
+    "bloodBankID": true,
     "paidAmount": true,
     "paidStatus": true,
     "statusID": true,
@@ -106,8 +106,8 @@
     "hiddenOrganizationUser": 4
 },
 "jwebtokensecret": "ZeUMwqxmyBnm2Q2y",
-"jwttokenexpiryminuteAdmin": 1000,
-"jwttokenexpiryminuteUser": 1000,
+"jwttokenexpiryminuteAdmin": 100,
+"jwttokenexpiryminuteUser": 100,
 "crypto": {
     "myTotalySecretKey" : "ZHNHdj2eSPNhRog79LeD19u1eKNj8OZQ"
 },
