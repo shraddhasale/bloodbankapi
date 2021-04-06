@@ -191,7 +191,7 @@ export class AuthController {
             //organization user wise access
             else if (verifiedJwt.type == constants.userTypeforjwttoken.user) {
               let organizationInurlFalg = false;
-              let roleID = [];
+              /* let roleID = [];
               for (let i = 0; i < verifiedJwt.organization.length; i++) {
                 ////console.log(requestUrl)
                 if (requestUrl.includes(verifiedJwt.organization[i]['id'])) {
@@ -200,6 +200,7 @@ export class AuthController {
                   break;
                 }
               }
+              */
               // //console.log(organizationInurlFalg);
               // //console.log(roleID);
 
