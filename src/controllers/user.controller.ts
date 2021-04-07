@@ -81,7 +81,14 @@ export class UserController extends common.CommonComponent {
     user.createdAt = new Date();
     user.updatedAt = new Date();
 
-    return this.userRepository.create(user);
+    var foundUser: any = this.userRepository.create(user);
+
+    var token = await this.generateUserToken(foundUser.id);
+    var result: any = {};
+
+    result = token;
+    console.log('inside user end === ' + moment());
+    return {...result};
   }
 
   @get('/user/count', {
