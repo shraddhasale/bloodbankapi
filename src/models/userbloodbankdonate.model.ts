@@ -22,6 +22,12 @@ export class Userbloodbankdonate extends Entity {
   userID: string;
 
   @property({
+    type: 'string',
+    required: true,
+  })
+  requestFor: string;
+
+  @property({
     type: 'number',
     required: true,
   })
