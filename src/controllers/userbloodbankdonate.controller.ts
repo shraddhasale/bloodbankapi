@@ -64,7 +64,7 @@ export class UserbloodbankdonateController extends common.CommonComponent {
     await this.sanitizeRequestBody(userbloodbankdonate);
     await this.validateData(userbloodbankdonate, 'userbloodbankdonate');
 
-    //check bloodbankID is valdi
+    //check bloodbankID is valid
     await this.checkBloodBankisValid(userbloodbankdonate.bloodBankID);
 
     //check bloodbankID is valdi
