@@ -76,6 +76,7 @@
         "userID": "Please select user",
         "bloodbankID": "Please select blood bank",
         "paidAmount": "Please enter paid amount",
+        "requestFor": "Please enter requestFor",
         "paidStatus": "Please enter paid status",
         "statusID": "Please enter valid status",
         "userNotExist": "Invalid User",
