@@ -82,9 +82,11 @@
   },
   "userRoleID": "604c60599db3bd40b16ca9fe",
   "defaultFieldsForUserBloodDonation": {
+    "id":true,
     "userID": true,
     "bloodBankID": true,
     "paidAmount": true,
+    "requestFor": true,
     "paidStatus": true,
     "statusID": true,
     "createdAt": true
