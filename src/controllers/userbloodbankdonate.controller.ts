@@ -325,7 +325,7 @@ export class UserbloodbankdonateController extends common.CommonComponent {
     let userbloodbankdonateDetail: any = await this.userbloodbankdonateRepository.find(
       {
         where: {
-          id: userbloodbankdonate,
+          id: userbloodbankdonateID,
         },
       },
     );
