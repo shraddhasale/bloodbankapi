@@ -346,7 +346,7 @@ export class UserbloodbankdonateController extends common.CommonComponent {
     );
 
     var result: any = await this.userbloodbankdonateRepository.findById(
-      userbloodbankdonate,
+      userbloodbankdonateID,
       {},
     );
 
