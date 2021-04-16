@@ -108,8 +108,8 @@
     "hiddenOrganizationUser": 4
 },
 "jwebtokensecret": "ZeUMwqxmyBnm2Q2y",
-"jwttokenexpiryminuteAdmin": 1000000,
-"jwttokenexpiryminuteUser": 10000000,
+"jwttokenexpiryminuteAdmin": 10000000000,
+"jwttokenexpiryminuteUser": 100000000000,
 "crypto": {
     "myTotalySecretKey" : "ZHNHdj2eSPNhRog79LeD19u1eKNj8OZQ"
 },
