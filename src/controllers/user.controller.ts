@@ -81,7 +81,7 @@ export class UserController extends common.CommonComponent {
     user.createdAt = new Date();
     user.updatedAt = new Date();
 
-    var foundUser: any = this.userRepository.create(user);
+    var foundUser: any = await this.userRepository.create(user);
 
     var token = await this.generateUserToken(foundUser.id);
     var result: any = {};
